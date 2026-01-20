@@ -6,6 +6,7 @@
 require __DIR__.'/config.php';
 require_admin();
 $pdo = db();
+$currentUser = current_user();
 
 // Créer les tables si elles n'existent pas
 $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
@@ -69,6 +70,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])){
+  // Empêcher un admin de modifier ou supprimer son propre compte
+  if(in_array($_POST['action'], ['promote', 'demote', 'delete'])){
+    $targetUserId = intval($_POST['id'] ?? 0);
+    if($targetUserId === intval($currentUser['id'])){
+      // Redirection avec message d'erreur
+      header('Location: /tennis-club-rambouillet/php/admin.php?error=own_account');
+      exit;
+    }
+  }
+  
   if($_POST['action']==='promote' && isset($_POST['id'])){
     $pdo->prepare('UPDATE users SET role="Admin" WHERE id=?')->execute([intval($_POST['id'])]);
   } else if($_POST['action']==='demote' && isset($_POST['id'])){
@@ -251,6 +262,7 @@ $events = $pdo->query("
       <h3>Créer un utilisateur</h3>
       <?php if($createError){ echo '<p style="color:#b00020;margin:8px 0">'.htmlspecialchars($createError).'</p>'; } ?>
       <?php if(isset($_GET['created'])){ echo '<p style="color:#1b5e20;margin:8px 0">Utilisateur créé avec succès.</p>'; } ?>
+      <?php if(isset($_GET['error']) && $_GET['error'] === 'own_account'){ echo '<p style="color:#b00020;margin:8px 0">Vous ne pouvez pas modifier ou supprimer votre propre compte.</p>'; } ?>
       <form method="post" class="create-user" autocomplete="off">
         <input type="hidden" name="action" value="create">
         <div class="form-row"><div class="form-field"><label>Nom complet :<input type="text" name="full_name" required></label></div></div>
@@ -258,8 +270,8 @@ $events = $pdo->query("
         <div class="form-row"><div class="form-field"><label>Mot de passe :<input type="password" name="password" required></label></div></div>
         <div class="form-row"><div class="form-field"><label>Rôle :
           <select name="role">
-            <option value="member" selected>Membre</option>
-            <option value="admin">Admin</option>
+            <option value="Membre" selected>Membre</option>
+            <option value="Admin">Admin</option>
           </select>
         </label></div></div>
         <div class="form-row" style="margin-top:10px">
@@ -280,15 +292,19 @@ $events = $pdo->query("
             <td>
               <!-- Formulaire d'actions par ligne (POST) -->
               <!-- Formulaire d'actions par ligne (POST) avec confirmation JS -->
-              <form method="post" class="actions">
-                <input type="hidden" name="id" value="<?php echo intval($us['id']); ?>">
-                <?php if($us['role']!=='admin'): ?>
-                  <button class="btn" name="action" value="promote">Promouvoir admin</button>
-                <?php else: ?>
-                  <button class="btn sec" name="action" value="demote">Rétrograder membre</button>
-                <?php endif; ?>
-                <button class="btn warn" name="action" value="delete">Supprimer</button>
-              </form>
+              <?php if(intval($us['id']) === intval($currentUser['id'])): ?>
+                <span style="color:#666;font-style:italic">Moi</span>
+              <?php else: ?>
+                <form method="post" class="actions">
+                  <input type="hidden" name="id" value="<?php echo intval($us['id']); ?>">
+                  <?php if($us['role']!=='Admin'): ?>
+                    <button class="btn" name="action" value="promote">Promouvoir admin</button>
+                  <?php else: ?>
+                    <button class="btn sec" name="action" value="demote">Rétrograder membre</button>
+                  <?php endif; ?>
+                  <button class="btn warn" name="action" value="delete" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</button>
+                </form>
+              <?php endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>
