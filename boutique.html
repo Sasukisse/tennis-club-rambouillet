@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+  Page Boutique
+  Rôle: afficher des produits (balles, pull), gérer un panier côté navigateur (localStorage),
+  calculer les totaux et créer un paiement via PayPal.
+  Structure:
+    - Header: navigation du site.
+    - Section hero: titre + phrase.
+    - Main: liste de produits + panier à droite.
+    - Footer: mentions.
+  JS (en bas):
+    - Gestion du panier: ajout, suppression, quantité.
+    - Calcul des totaux: sous-total, livraison (forfait si < 50€), total.
+    - Rendu des boutons PayPal: création d'une commande et capture.
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boutique – Tennis Club de Rambouillet</title>
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/boutique.css" />
+</head>
+<body>
+  <header>
+    <div class="container header-flex">
+      <a href="index.html">
+        <img src="img/logo.png" alt="Logo Tennis Club de Rambouillet" class="logo">
+      </a>
+      <nav>
+        <ul>
+          <!-- Liens du menu: pointent vers les autres pages du site -->
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="le-club.html">Le Club</a></li>
+          <li><a href="inscriptions.html">Inscriptions</a></li>
+          <li><a href="terrains.php">Terrains</a></li>
+          <li><a href="/tennis-club-rambouillet/php/medias.php">Médias</a></li>
+          <li><a href="boutique.html" class="active" aria-current="page">Boutique</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="php/login.php">Mon espace</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="shop-hero">
+    <div class="container">
+      <h1>Boutique du Club</h1>
+      <p>Commandez vos balles et le pull officiel du Tennis Club de Rambouillet.</p>
+    </div>
+  </section>
+
+  <main class="container shop-layout">
+    <!-- PRODUITS: chaque article contient image, titre, description, prix et contrôles -->
+    <section class="products" aria-label="Liste de produits">
+      <!-- Produit 1 : Balles de tennis -->
+      <article class="product-card" data-sku="BALL-4P">
+        <img src="img/produits/balles.jpg" alt="Tube de 4 balles de tennis" class="product-media" width="1200" height="800" loading="lazy">
+        <h3 class="product-title">Balles de tennis – Tube de 4</h3>
+        <p class="product-desc">Balles pressurisées pour tous types de surface. Marque premium, durables.</p>
+        <div class="product-row">
+          <span class="product-price" data-price="8.00">8,00 €</span>
+          <label>Qté :<input class="product-qty" type="number" value="1" min="1" step="1"></label>
+        </div>
+        <button class="btn-add" data-type="simple">Ajouter au panier</button>
+      </article>
+
+      <!-- Produit 2 : Pull du club -->
+      <article class="product-card" data-sku="PULL-2025">
+        <img src="img/produits/pull.jpg" alt="Pull officiel du club, coloris bleu marine" class="product-media" width="1200" height="800" loading="lazy">
+        <h3 class="product-title">Pull officiel du club</h3>
+        <p class="product-desc">Coupe unisexe, bleu marine, logo brodé. Coton épais confortable.</p>
+        <div class="product-row">
+          <span class="product-price" data-price="35.00">35,00 €</span>
+          <select class="product-size" aria-label="Taille">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <label>Qté :<input class="product-qty" type="number" value="1" min="1" step="1"></label>
+        </div>
+        <button class="btn-add" data-type="variant">Ajouter au panier</button>
+      </article>
+    </section>
+
+    <!-- PANIER: liste d'items ajoutés + récapitulatif + paiement -->
+    <aside class="cart" aria-label="Panier">
+      <h2>Panier</h2>
+      <p class="cart-empty">Votre panier est vide.</p>
+      <ul class="cart-list" hidden></ul>
+
+      <div class="cart-summary" hidden>
+        <div class="summary-row"><span>Sous-total</span><span id="sum-subtotal">0,00 €</span></div>
+        <div class="summary-row"><span>Livraison <small>(forfait)</small></span><span id="sum-shipping">0,00 €</span></div>
+        <div class="summary-row total"><span>Total</span><span id="sum-total">0,00 €</span></div>
+        <!-- Validation: redirection vers la page de paiement (démo carte) -->
+        <a class="btn-demo" href="checkout.html" id="btn-checkout">Valider le panier</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Tennis Club de Rambouillet — Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <!-- Paiement: démo via page checkout (pas de PayPal en mode école) -->
+
+  <script src="js/nav-badge.js"></script>
+  <script src="js/boutique.js"></script>
+</body>
+</html>

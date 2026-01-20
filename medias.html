@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Médias – TCR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/tennis-club-rambouillet/css/style.css">
+  <link rel="stylesheet" href="/tennis-club-rambouillet/css/medias.css">
+  <script src="/tennis-club-rambouillet/js/nav-badge.js"></script>
+</head><body>
+  <header><div class="container header-flex">
+    <a href="/tennis-club-rambouillet/index.html"><img src="/tennis-club-rambouillet/img/logo.png" alt="Logo" class="logo"></a>
+    <nav><ul>
+      <li><a href="/tennis-club-rambouillet/index.html">Accueil</a></li>
+      <li><a href="/tennis-club-rambouillet/le-club.html">Le Club</a></li>
+      <li><a href="/tennis-club-rambouillet/inscriptions.html">Inscriptions</a></li>
+      <li><a href="/tennis-club-rambouillet/terrains.html">Terrains</a></li>
+      <li><a href="/tennis-club-rambouillet/php/medias.php" class="active">Médias</a></li>
+      <li><a href="/tennis-club-rambouillet/boutique.html">Boutique</a></li>
+      <li><a href="/tennis-club-rambouillet/contact.html">Contact</a></li>
+      <li><a href="/tennis-club-rambouillet/php/dashboard.php">Mon espace</a></li>
+    </ul></nav>
+  </div></header>
+
+  <section class="hero"><div class="container"><h1>Galerie Médias</h1><p>Photos et vidéos du club.</p></div></section>
+
+  <main class="medias"><div class="container">
+    <p id="admin-link" class="muted" style="margin-bottom:12px" hidden><a href="/tennis-club-rambouillet/php/medias-admin.php">Gérer les médias (admin)</a></p>
+    <section>
+      <h2>Photos</h2>
+      <div class="media-grid">
+        <!-- Exemples: remplacez les sources par vos fichiers -->
+        <figure class="media-item">
+          <img src="/tennis-club-rambouillet/img/produits/balles.jpg" alt="Balles de tennis">
+          <figcaption>Balles de tennis</figcaption>
+        </figure>
+        <figure class="media-item">
+          <img src="/tennis-club-rambouillet/img/produits/raquette.jpg" alt="Raquette">
+          <figcaption>Raquette</figcaption>
+        </figure>
+        <figure class="media-item placeholder">
+          <div class="ph">+ Ajoutez vos images ici</div>
+        </figure>
+        <figure class="media-item placeholder">
+          <div class="ph">+ Ajoutez vos images ici</div>
+        </figure>
+      </div>
+    </section>
+
+    <section style="margin-top:28px">
+      <h2>Vidéos</h2>
+      <div class="media-grid">
+        <figure class="media-item">
+          <video controls preload="metadata">
+            <source src="/tennis-club-rambouillet/img/produits/demo.mp4" type="video/mp4">
+          </video>
+          <figcaption>Présentation du club (démo)</figcaption>
+        </figure>
+        <figure class="media-item placeholder">
+          <div class="ph">+ Ajoutez vos vidéos ici</div>
+        </figure>
+      </div>
+    </section>
+  </div></main>
+
+  <footer><div class="container"><p>&copy; 2025 Tennis Club de Rambouillet</p></div></footer>
+  <script>
+  (async function(){
+    try{
+      const r = await fetch('/tennis-club-rambouillet/php/me.php', {credentials:'same-origin'});
+      const d = await r.json();
+      if(d && d.loggedIn && d.user && d.user.role === 'admin'){
+        const link = document.getElementById('admin-link'); if(link) link.hidden = false;
+      }
+    }catch(_){/* ignore */}
+  })();
+  </script>
+</body></html>

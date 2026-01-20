@@ -1,0 +1,247 @@
+/* ==========================
+  boutique.css (spécifique à la page boutique)
+  Rôle: styles de la page produits + panier.
+  Sections:
+  - hero (header visuel)
+  - layout (grille produits + panier sticky)
+  - cartes produits
+  - panier (liste, actions, totaux)
+  - boutons (PayPal et démo)
+  ========================== */
+
+.shop-hero {
+  background: #FFF8E9;
+  padding: 20px 0 40px 0;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.07);
+}
+.shop-hero h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+.shop-hero p {
+  font-size: 1.1rem;
+}
+
+/* Grille principale: colonne produits + colonne panier */
+.shop-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+  margin-top: 40px;
+  align-items: start;
+}
+/* Grille des cartes produits (2 colonnes) */
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+}
+/* Carte produit: fond blanc, arrondi, ombre légère */
+.product-card {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  padding: 18px;
+}
+/* Image produit: rognée en cover et arrondie */
+.product-media {
+  width: 100%;
+  height: 260px;
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 14px;
+  background: #ffffff;
+}
+.product-title {
+  font-family: 'Barlow Semi Condensed', Arial, sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+.product-desc {
+  font-size: .98rem;
+  color: #444;
+  margin-bottom: 10px;
+  min-height: 40px;
+}
+/* Ligne prix/taille/quantité sous la description */
+.product-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 10px 0;
+}
+.product-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #202226;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+.product-qty {
+  width: 70px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+  font-weight: 600;
+  text-align: center;
+}
+.product-size {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+  font-weight: 600;
+}
+/* Bouton ajout au panier avec hover inversé */
+.btn-add {
+  display: inline-block;
+  background: #F95E2D;
+  color: #ffffff;
+  border: 0;
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+.btn-add:hover {
+  background: #ffffff;
+  color: #F95E2D;
+  border: 2px solid #F95E2D;
+}
+
+/* Panier sticky à droite */
+.cart {
+  position: sticky;
+  top: 20px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  padding: 18px;
+}
+.cart h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.cart-empty {
+  color: #666;
+  font-size: .95rem;
+}
+/* Liste défilante des items du panier */
+.cart-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 420px;
+  overflow: auto;
+  border-top: 1px solid rgba(0,0,0,.06);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+/* Item panier: ligne avec actions à droite */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed rgba(0,0,0,.06);
+}
+.cart-meta {
+  font-size: .9rem;
+  color: #444;
+}
+/* Actions par ligne: quantité + retirer */
+.cart-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cart-qty {
+  width: 54px;
+  text-align: center;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,.15);
+}
+.cart-remove {
+  background: transparent;
+  border: 0;
+  color: #F95E2D;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Récapitulatif sous-total/livraison/total + boutons */
+.cart-summary {
+  margin-top: 12px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: .98rem;
+}
+.summary-row.total {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+/* Boutons pleine largeur sous le panier */
+.btn-paypal, .btn-demo {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  border-radius: 40px;
+  padding: 12px 16px;
+  font-weight: 800;
+  border: 0;
+  cursor: pointer;
+  transition: background .2s, color .2s, transform .2s, box-shadow .2s;
+}
+.btn-demo {
+  background: #F95E2D;
+  color: #ffffff;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  outline: none;
+}
+.btn-demo:hover {
+  background: #e94f1f;
+  transform: scale(1.03);
+  box-shadow: 0 4px 14px rgba(0,0,0,.16);
+}
+.cart .btn-demo {
+  background: #F95E2D !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  transition: background .2s, color .2s, transform .2s, box-shadow .2s !important;
+}
+.cart .btn-demo:hover { background: #e94f1f !important; transform: scale(1.03) !important; box-shadow: 0 4px 14px rgba(0,0,0,.16) !important; }
+.btn-demo:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(249,94,45,.3);
+}
+
+#paypal-button-container {
+  margin-top: 12px;
+}
+#nav-cart-badge, .cart-badge { display:inline-block; min-width:20px; padding:2px 6px; margin-left:6px; border-radius:12px; background:#F95E2D; color:#FFF8E9; font-weight:bold; font-size:.8rem; line-height:1; text-align:center; transform: translateY(-2px); }
+
+/* Effets hover/focus spécifiques au bouton de validation du panier */
+#btn-checkout { transition: background .2s, color .2s, transform .2s, box-shadow .2s !important; }
+#btn-checkout:hover { background: #e94f1f !important; transform: scale(1.03) !important; box-shadow: 0 4px 14px rgba(0,0,0,.16) !important; }
+
+/* Force le style du bouton "Valider le panier" dans le panier */
+#btn-checkout {
+  background: #F95E2D !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-style: none !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1) !important;
+}
+#btn-checkout:hover { background: #e94f1f !important; }
+#btn-checkout:focus { outline: none !important; box-shadow: 0 0 0 2px rgba(249,94,45,.3) !important; }

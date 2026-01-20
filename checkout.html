@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement – Tennis Club de Rambouillet</title>
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body>
+  <header>
+    <div class="container header-flex">
+      <a href="index.html"><img src="img/logo.png" alt="Logo" class="logo"></a>
+      <nav><ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html" class="active">Boutique</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></nav>
+    </div>
+  </header>
+
+  <section class="hero"><div class="container"><h1>Paiement</h1><p>Entrez vos informations de carte bancaire.</p></div></section>
+
+  <main class="checkout">
+    <div class="container grid">
+      <section class="card" aria-label="Récapitulatif de commande">
+        <h3>Votre commande</h3>
+        <ul id="order-list" style="list-style:none; padding:0; margin:0"></ul>
+        <div style="margin-top:10px">
+          <div class="sum-row"><span>Sous-total</span><span id="sum-subtotal">0,00 €</span></div>
+          <div class="sum-row"><span>Livraison</span><span id="sum-shipping">0,00 €</span></div>
+          <div class="sum-row total"><span>Total</span><span id="sum-total">0,00 €</span></div>
+        </div>
+        <div class="address-summary" id="address-summary" hidden>
+          <h4 style="margin:8px 0 6px 0">Adresse de livraison</h4>
+          <p class="muted" id="addr-text"></p>
+        </div>
+      </section>
+
+      <!-- Colonne droite: informations de facturation + carte -->
+      <div>
+        <section class="card" aria-label="Informations de facturation">
+          <h3>Informations de facturation</h3>
+          <form id="billing-form" autocomplete="off">
+            <div class="form-row">
+              <div class="form-field"><label>Nom complet<input id="addr-name" type="text" placeholder="Jean Dupont" required></label></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label>Adresse<input id="addr-line" type="text" placeholder="38 rue des Fontaines" required></label></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label>Code postal<input id="addr-zip" type="text" inputmode="numeric" placeholder="78120" required></label></div>
+              <div class="form-field"><label>Ville<input id="addr-city" type="text" placeholder="Rambouillet" required></label></div>
+            </div>
+          </form>
+        </section>
+
+        <section class="card" aria-label="Paiement par carte">
+          <h3>Carte bancaire</h3>
+          <form id="card-form" autocomplete="off">
+            <div class="form-row">
+              <div class="form-field"><label>Numéro de carte<input id="card-number" type="text" inputmode="numeric" placeholder="4242 4242 4242 4242" minlength="16" maxlength="16" pattern="\d{16}" required></label></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label>Date d'expiration (MM/AA)<input type="text" inputmode="numeric" placeholder="12/29" required></label></div>
+              <div class="form-field"><label>CVV<input type="text" inputmode="numeric" placeholder="123" required></label></div>
+            </div>
+            <div class="form-row"><button class="btn" type="submit">Payer</button></div>
+            <p class="muted" id="pay-status" style="margin-top:10px"></p>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer><div class="container"><p>&copy; 2025 Tennis Club de Rambouillet - Tous droits réservés</p></div></footer>
+
+  <script src="js/nav-badge.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

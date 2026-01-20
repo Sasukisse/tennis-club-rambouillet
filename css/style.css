@@ -1,0 +1,325 @@
+/* Reset de base pour harmoniser l'apparence entre navigateurs */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Styles de base du document */
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #FFF8E9;
+    color: #202226;
+}
+/* Paragraphes: pas de fond, évite l'effet "surlignage" dans les cartes */
+p {
+    background: transparent;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Barlow Semi Condensed', Arial, sans-serif;
+    font-weight: 600;
+}
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+
+/* Conteneur central: largeur max et centrage du contenu */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* En-tête du site: couleur de fond crème et padding vertical */
+header {
+    background: #FFF8E9;
+    color: #202226;
+    padding: 20px 0;
+}
+/* Layout du header: flex + nav centré via positionnement absolu */
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+/* Navigation centrée horizontalement dans le header */
+.header-flex nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* Logo: taille et effet de hover léger */
+header .logo {
+    height: 100px;
+    width: auto;
+    margin-right: 25px;
+    transition: transform 0.2s;
+}
+.header-flex a:hover .logo {
+    transform: scale(1.08);
+}
+/* Liste de navigation: horizontale, espacée, sans puces */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+    white-space: nowrap;
+}
+/* Liens du menu: couleur et hover */
+nav a {
+    color: #202226;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Montserrat', Arial, sans-serif;
+    transition: color .2s;
+}
+nav a:hover,
+/* Lien actif: même style mais mis en évidence par la couleur définie plus haut */
+nav a.active {
+    color: #F95E2D;
+}
+nav a.active {
+    text-decoration: none;
+}
+
+/* (retour état initial) pas de bouton détaché à droite */
+
+/* Section d'accroche (hero) avec ombre douce */
+.hero {
+    background: #FFF8E9;
+    color: #202226;
+    text-align: center;
+    padding: 20px 0 60px 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+}
+/* Bouton principal (call-to-action) réutilisable */
+.hero .cta { margin-top: 20px; }
+.cta {
+    display: inline-block;
+    background: #F95E2D;
+    color: #FFF8E9;
+    font-weight: bold;
+    padding: 15px 35px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    border: 2px solid transparent;
+    transition: background .2s, color .2s, border .2s, transform .2s, box-shadow .2s;
+}
+.cta:hover {
+    background: #FFF8E9;
+    color: #F95E2D;
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    border: 2px solid #F95E2D;
+}
+
+/* Bloc d'information avec arrondi et ombre légère */
+.about {
+    background: #FFF8E9;
+    padding: 40px 0 30px 0;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    margin-top: 40px;
+}
+.about h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #202226;
+}
+
+/* Pied de page simple */
+footer {
+    background: #FFF8E9;
+    color: #202226;
+    text-align: center;
+    padding: 18px 0;
+    margin-top: 40px;
+    border-radius: 0 0 10px 10px;
+    font-size: .95rem;
+}
+
+/* Section des services (carrousel) */
+.services-section {
+    background: #FFF8E9;
+    padding: 50px 0 40px 0;
+    text-align: center;
+    border-radius: 20px;
+    margin-top: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.services-section h2 {
+    font-size: 2rem;
+    margin-bottom: 28px;
+    color: #202226;
+}
+
+/* Carrousel: conteneur des slides et des flèches */
+.carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+/* Boutons du carrousel (précédent/suivant) */
+.carousel-btn {
+    background: #F95E2D;
+    color: #FFF8E9;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: background .2s, color .2s, border .2s, transform .2s, box-shadow .2s;
+}
+.carousel-btn:hover {
+    background: #FFF8E9;
+    color: #F95E2D;
+    transform: scale(1.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    border: 2px solid #F95E2D;
+}
+.carousel-btn:hover svg path {
+    stroke: #F95E2D;
+    transition: stroke 0.2s;
+}
+
+/* Badge de panier global (identique à Boutique) */
+#nav-cart-badge, .cart-badge {
+    display: inline-block;
+    min-width: 20px;
+    padding: 2px 6px;
+    margin-left: 6px;
+    border-radius: 12px;
+    background: #F95E2D;
+    color: #FFF8E9;
+    font-weight: bold;
+    font-size: .8rem;
+    line-height: 1;
+    text-align: center;
+    transform: translateY(-2px);
+}
+
+/* Pile des slides avec transition d'opacité pour l'effet de carousel */
+.carousel-images {
+    position: relative;
+    width: 520px;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    margin: 0 10px;
+    flex-direction: column;
+}
+/* Slide: masquée par défaut (opacity 0), visible quand .active */
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1;
+    pointer-events: none;
+}
+/* Slide active: visible et interactive */
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+    pointer-events: auto;
+}
+/* Image de slide: taille fixe avec arrondi et ombre douce */
+.carousel-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    display: block;
+}
+/* Lien/caption sous l'image (ex: Location de courts) */
+.carousel-caption {
+    display: inline-block;
+    background: #F95E2D;
+    color: #FFF8E9;
+    border-radius: 30px;
+    padding: 10px 28px;
+    font-family: 'Barlow Semi Condensed', Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 0;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.carousel-caption:hover {
+    background: #fff8e9;
+    color: #F95E2D;
+    transform: scale(1.05);
+    text-decoration: none;
+    border: 2px solid #F95E2D
+}
+
+/* Page Le Club: section principale structurellement similaire au hero */
+.club-main-section {
+    background: #FFF8E9;
+    color: #202226;
+    text-align: center;
+    padding: 20px 0 60px 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+/* Grille simple pour les photos du club */
+.club-section-photos .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 36px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+/* Dimensions des vignettes photos */
+.club-section-photos .club-img {
+    width: 460px;
+    height: 670px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    background: #FFF8E9;
+    display: block;
+}
+.photo-wrapper {
+    background: linear-gradient(120deg, #FFF8E9 70%, #F95E2D 120%);
+    border-radius: 25px;
+    padding: 22px;
+    display: inline-block;
+    margin: 0 auto 25px auto;
+}
+.club-section-photos a {
+    cursor: zoom-in;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+.club-section-photos a:hover {
+    transform: scale(1.04);
+}

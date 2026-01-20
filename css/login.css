@@ -1,0 +1,19 @@
+/*
+  login.css
+  Styles spécifiques à la page de connexion
+  - Mise en page du conteneur
+  - Carte du formulaire
+  - Champs + boutons
+*/
+.auth { padding: 30px 0; }
+.auth .card { max-width: 560px; margin: 0 auto; background: white; border: 1px solid #e7dcc9; border-radius: 16px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.03); }
+/* Rangées du formulaire: flex pour s'adapter, mais champs pleine largeur pour alignement */
+.form-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.form-field { display: flex; flex-direction: column; flex: 1; min-width: 100%; }
+.form-field label { margin-bottom: 10px; }
+.form-field input { width: 100%; padding: 10px 12px; border: 1px solid #e7dcc9; border-radius: 10px; }
+/* Boutons: style principal réutilisé, avec hover inversé */
+.btn { display: inline-block; background: #F95E2D; color: #FFF8E9; font-weight: bold; font-family: 'Montserrat', Arial, sans-serif; font-size: 1rem; padding: 12px 22px; border-radius: 30px; border: 2px solid transparent; text-decoration: none; cursor: pointer; transition: .2s; }
+.btn:hover { background: #FFF8E9; color: #F95E2D; border-color: #F95E2D; transform: scale(1.03); }
+/* Message d'erreur d'authentification */
+.error { color: #b00020; margin-top: 10px; text-align: center; }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+    Page d'accueil du site.
+    Présentation:
+    - Header: logo + navigation centrale.
+    - Hero: titre d'accroche + bouton d'inscription.
+    - Services: carrousel avec navigation et auto-rotation.
+    - Footer.
+    Styles globaux: css/style.css.
+-->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Club de Rambouillet</title>
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <!-- En-tête: contient le logo et la navigation principale -->
+        <div class="container header-flex">
+            <a href="index.html">
+                <!-- Logo cliquable renvoyant vers la page d'accueil -->
+                <img src="img/logo.png" alt="Logo Tennis Club de Rambouillet" class="logo">
+            </a>
+            <nav>
+                <!-- Menu centré: chaque <li> pointe vers une page du site -->
+                <ul>
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li><a href="le-club.html">Le Club</a></li>
+                    <li><a href="inscriptions.html">Inscriptions</a></li>
+                    <li><a href="terrains.php">Terrains</a></li>
+                    <li><a href="/tennis-club-rambouillet/php/medias.php">Médias</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <!-- Espace utilisateur (redirige vers login si non connecté) -->
+                    <li><a href="php/dashboard.php">Mon espace</a></li>
+                </ul>
+            </nav>
+            
+        </div>
+    </header>
+    <!-- Section d'introduction avec un appel à l'action -->
+    <section class="hero">
+        <div class="container">
+            <h1>Bienvenue au Tennis Club de Rambouillet</h1>
+            <!-- Bouton principal: mène vers la page d'inscriptions -->
+            <a href="inscriptions.html" class="cta">Nous rejoindre</a>
+        </div>
+    </section>
+    <!-- Carrousel de services: flèches précédente/suivante et slides -->
+    <section class="services-section">
+        <div class="container">
+            <h2>Nos services</h2>
+            <div class="carousel">
+                <button class="carousel-btn prev" aria-label="Image précédente">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 19l-7-7 7-7" stroke="#FFF8E9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="carousel-images">
+                    <div class="carousel-slide active">
+                        <img src="img/service1.jpg" alt="Service 1" class="carousel-img">
+                        <a href="terrains.php" class="carousel-caption">Location de courts</a>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/service2.jpg" alt="Service 2" class="carousel-img">
+                        <a href="service2.html" class="carousel-caption">Cours collectifs</a>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/service3.jpg" alt="Service 3" class="carousel-img">
+                        <a href="service3.html" class="carousel-caption">Compétition & Loisirs</a>
+                    </div>
+                </div>
+                <button class="carousel-btn next" aria-label="Image suivante">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5l7 7-7 7" stroke="#FFF8E9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="container">
+            <h2>Le Club en quelques mots</h2>
+            <p>
+                Le Tennis Club de Rambouillet ce sont 3 courts extérieurs (refaits en 2017), 3 salles (2 refaites en 2012 et 1 refaite 2017)
+                , un mini tennis, un club house avec vestiaires. C’est également une équipe sportive dynamique et sympathique. 
+                La possibilité de pratiquer le tennis en compétition ou en loisir. 
+                Une école de tennis pour les jeunes, des cours collectifs et aussi des entraînements d’équipes pour les adultes. 
+                Une équipe dirigeante à l’écoute et active. Venez nous rencontrez !
+            </p>
+        </div>
+    </section>
+
+    <!-- Pied de page simple -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tennis Club de Rambouillet — Tous droits réservés</p>
+        </div>
+    </footer>
+
+<!--
+    Script du carrousel:
+    - Au chargement, récupère les slides.
+    - Boutons prev/next pour naviguer.
+    - Rotation automatique toutes les 10s.
+    Détails:
+    - showSlide(index) applique .active sur la slide ciblée.
+    - Les boutons calculent l'index suivant/précédent avec modulo.
+    - setInterval avance automatiquement toutes les 10s.
+-->
+<script src="js/nav-badge.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    let current = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        current = (current - 1 + slides.length) % slides.length;
+        showSlide(current);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+    });
+
+    setInterval(() => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+    }, 10000);
+});
+</script>
+
+</body>
+</html>

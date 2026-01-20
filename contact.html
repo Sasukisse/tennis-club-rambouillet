@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+  Page Contact
+  Objectif: offrir un formulaire simple pour écrire au club et afficher
+  les coordonnées utiles. Cette page suit la direction artistique globale.
+
+  Structure générale:
+  - <header>: navigation du site
+  - <section class="hero">: titre/intro
+  - <main class="contact-wrap">: grille avec
+      * <section class="card">: formulaire
+      * <aside class="card">: coordonnées
+  - <footer>: mentions
+
+  JS (en bas): gestion de la soumission du formulaire en mode démo
+  (pas d’envoi serveur, juste un message et reset des champs).
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – Tennis Club de Rambouillet</title>
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
+  <!-- Feuilles de style: globale puis spécifique à la page Contact -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/contact.css" />
+</head>
+<body>
+  <header>
+    <div class="container header-flex">
+      <a href="index.html">
+        <img src="img/logo.png" alt="Logo Tennis Club de Rambouillet" class="logo">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="le-club.html">Le Club</a></li>
+          <li><a href="inscriptions.html">Inscriptions</a></li>
+          <li><a href="terrains.php">Terrains</a></li>
+          <li><a href="/tennis-club-rambouillet/php/medias.php">Médias</a></li>
+          <li><a href="boutique.html">Boutique</a></li>
+          <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
+          <!-- Espace utilisateur (redirige vers login si non connecté) -->
+          <li><a href="php/dashboard.php">Mon espace</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- En-tête visuel de la page -->
+  <section class="hero">
+    <div class="container">
+      <h1>Contact</h1>
+      <p>Une question sur le club, les inscriptions ou les réservations ? Écrivez-nous.</p>
+    </div>
+  </section>
+
+  <!-- Contenu principal: formulaire + coordonnées dans une grille -->
+  <main class="contact-wrap">
+    <div class="container contact-grid">
+      <!-- Carte: formulaire de contact -->
+      <section class="card" aria-label="Formulaire de contact">
+        <h3>Nous écrire</h3>
+        <!-- Formulaire en mode démo: aucun envoi au serveur -->
+        <form id="contact-form" autocomplete="off">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="ct-name">Nom</label>
+              <input id="ct-name" type="text" required placeholder="Votre nom">
+            </div>
+            <div class="form-field">
+              <label for="ct-email">Email</label>
+              <input id="ct-email" type="email" required placeholder="jean.dupond@exemple.fr">
+            </div>
+          </div>
+          <div class="form-row">
+            <!-- Champ message sur toute la largeur -->
+            <div class="form-field" style="flex:1; min-width:100%;">
+              <label for="ct-message">Message</label>
+              <textarea id="ct-message" required placeholder="Votre message"></textarea>
+            </div>
+          </div>
+          <div class="form-row button-row">
+            <button type="submit" class="btn">Envoyer</button>
+          </div>
+          <!-- Zone d’état (confirmation) affichée après soumission -->
+          <p class="muted" id="ct-status" style="margin-top:10px;"></p>
+        </form>
+      </section>
+
+      <!-- Carte: coordonnées et informations essentielles -->
+      <aside class="card" aria-label="Coordonnées du club">
+        <h3>Coordonnées</h3>
+        <ul class="info-list">
+          <li><strong>Email:</strong> <a href="mailto:contact@tcr.example">contact@tcr.example</a></li>
+          <li><strong>Téléphone:</strong> <a href="tel:+33130418301">01 30 41 83 01</a></li>
+          <li><strong>Adresse:</strong> 38 rue des Fontaines - 78120 Rambouillet, France</li>
+          <li><strong>Horaires:</strong> Lun–Dim, 08:00–22:00</li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Tennis Club de Rambouillet — Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script src="js/nav-badge.js"></script>
+  <script>
+    // Soumission du formulaire en mode démo:
+    // - Empêche le rechargement
+    // - Vérifie que tous les champs requis sont remplis
+    // - Affiche un message de confirmation
+    // - Réinitialise le formulaire
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('ct-name').value.trim();
+      const email = document.getElementById('ct-email').value.trim();
+      const msg = document.getElementById('ct-message').value.trim();
+      if(!name || !email || !msg){ return; }
+      document.getElementById('ct-status').textContent = 'Merci, votre message a été envoyé (démo).';
+      this.reset();
+    });
+  </script>
+</body>
+</html>

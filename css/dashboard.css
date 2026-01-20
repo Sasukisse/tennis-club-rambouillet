@@ -1,0 +1,99 @@
+/*
+  dashboard.css
+  Styles spécifiques à la page dashboard (espace personnel)
+*/
+
+.dash {
+  padding: 30px 0;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e7dcc9;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+.card p:last-child {
+  margin-top: auto !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .card {
+    min-height: 260px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  background: #F95E2D;
+  color: #FFF8E9;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #FFF8E9;
+  color: #F95E2D;
+  border-color: #F95E2D;
+  transform: scale(1.03);
+}
+
+.info-item {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: baseline;
+}
+
+.info-item:first-of-type {
+  margin-top: 12px;
+}
+
+.info-label {
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.card h3,
+.card h4 {
+  font-size: 1.17rem;
+  font-weight: 600;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-field input {
+  padding: 10px 12px;
+  border: 1px solid #e7dcc9;
+  border-radius: 10px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}

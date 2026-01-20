@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+    Page Le Club
+    Objectif: présenter le club, son esprit et quelques visuels.
+    Structure:
+    - Header (nav globale)
+    - Section principale avec titre et intro
+    - Section photos avec 2 images cliquables (ouverture en onglet)
+    - Footer
+-->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Club – Tennis Club de Rambouillet</title>
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/nav-badge.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Logo Tennis Club de Rambouillet" class="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="le-club.html" class="active">Le Club</a></li>
+                    <li><a href="inscriptions.html">Inscriptions</a></li>
+                    <li><a href="terrains.php">Terrains</a></li>
+                    <li><a href="/tennis-club-rambouillet/php/medias.php">Médias</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="php/login.php">Mon espace</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="club-main-section">
+        <div class="container">
+            <h1>Le Club</h1>
+            <p>
+                Bienvenue sur la page du club ! Ici, vous trouverez toutes les informations sur le Tennis Club de Rambouillet, ses installations, son équipe dirigeante et ses activités.
+            </p>
+        </div>
+    </section>
+
+    <section class="club-section-photos">
+        <div class="container">
+            <!-- Images en pleine largeur avec ouverture dans un nouvel onglet -->
+            <a href="img/le-club-flyer-été.png" target="_blank">
+                <img src="img/le-club-flyer-été.png" alt="Photo du flyer été" class="club-img">
+            </a>
+            <a href="img/le-club-flyer-été2.jpeg" target="_blank">
+                <img src="img/le-club-flyer-été2.jpeg" alt="Photo journée portes ouvertes" class="club-img">
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tennis Club de Rambouillet — Tous droits réservés</p>
+        </div>
+    </footer>
+</body>
+</html>

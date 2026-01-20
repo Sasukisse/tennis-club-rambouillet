@@ -1,0 +1,5 @@
+/* Styles de la page de succès de paiement */
+.success-wrap { background:#FFF8E9; padding: 40px 0; }
+.card { max-width:640px; margin:0 auto; background:white; border:1px solid #e7dcc9; border-radius:16px; padding:22px; box-shadow:0 2px 8px rgba(0,0,0,.03); text-align:center; }
+.btn { display:inline-block; background:#F95E2D; color:#FFF8E9; font-weight:bold; font-family:'Montserrat', Arial, sans-serif; font-size:1rem; padding:12px 22px; border-radius:30px; border:2px solid transparent; text-decoration:none; cursor:pointer; transition:.2s; }
+.btn:hover { background:#FFF8E9; color:#F95E2D; border-color:#F95E2D; transform:scale(1.03); }

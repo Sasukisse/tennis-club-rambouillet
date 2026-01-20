@@ -1,0 +1,37 @@
+/*
+	Styles Contact (spécifiques à la page contact.html)
+	- Mise en page de la grille et des cartes
+	- Styles des champs de formulaire et du bouton
+	- Listes d’informations
+*/
+
+/* Fond doux et espacement du conteneur principal */
+.contact-wrap { background:#FFF8E9; padding: 30px 0 30px 0; }
+
+/* Grille responsive: une colonne sur mobile, deux colonnes sur écrans larges */
+.contact-grid { display:grid; grid-template-columns: 1fr; gap:22px; }
+@media (min-width: 820px){ .contact-grid { grid-template-columns: 1.2fr .8fr; } }
+
+/* Carte: fond blanc, bordure légère, arrondi et ombre discrète */
+.card { background:white; border:1px solid #e7dcc9; border-radius:16px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
+.card h3 { margin-bottom:12px; }
+
+/* Rangées du formulaire: flex + wrap pour s’adapter aux petits écrans */
+.form-row { display:flex; gap:14px; flex-wrap:wrap; }
+.form-field { display:flex; flex-direction:column; flex:1; min-width: 240px; }
+.form-field input, .form-field textarea { padding:10px 12px; border:1px solid #e7dcc9; border-radius:10px; background:white; font-family: 'Montserrat', Arial, sans-serif; }
+.form-field textarea { min-height: 140px; resize: vertical; }
+
+/* Bouton d’action avec hover inversé (fond clair, texte orangé) */
+.btn { display:inline-block; background:#F95E2D; color:#FFF8E9; font-weight:bold; font-family: 'Montserrat', Arial, sans-serif; font-size: 1rem; padding:12px 22px; border-radius:30px; border:2px solid transparent; text-decoration:none; cursor:pointer; transition:.2s; }
+.btn:hover { background:#FFF8E9; color:#F95E2D; border-color:#F95E2D; transform:scale(1.03); }
+
+/* Liste d’infos: sans puces, interligne confortable, liens stylés */
+.info-list { list-style:none; line-height:1.7; }
+.info-list a { color:#202226; text-decoration:none; font-weight:bold; }
+.info-list a:hover { color:#F95E2D; }
+.muted { color:#666; }
+
+/* Espacement du bloc bouton sous le formulaire */
+.form-row.button-row { justify-content:flex-start; margin-top:18px; }
+.button-row .btn { margin-top:4px; }

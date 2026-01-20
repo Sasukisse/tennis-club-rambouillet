@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  Page Inscriptions
+  Rôle: expliquer comment s'inscrire, lister les documents nécessaires,
+  présenter les formules et fournir un bouton de contact.
+  Note: le style est hérité de css/style.css. Le bouton PDF ouvre dans un nouvel onglet.
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscriptions – Tennis Club de Rambouillet</title>
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="container header-flex">
+      <a href="index.html">
+        <img src="img/logo.png" alt="Logo Tennis Club de Rambouillet" class="logo">
+      </a>
+      <nav>
+        <ul>
+          <!-- Menu global -->
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="le-club.html">Le Club</a></li>
+          <li><a href="inscriptions.html" class="active" aria-current="page">Inscriptions</a></li>
+          <li><a href="terrains.php">Terrains</a></li>
+          <li><a href="/tennis-club-rambouillet/php/medias.php">Médias</a></li>
+          <li><a href="boutique.html">Boutique</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="php/dashboard.php">Mon espace</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- En-tête de page (hero) -->
+  <section class="hero">
+    <div class="container">
+      <h1>Inscriptions</h1>
+      <p style="margin-bottom:10px;">Rejoignez le Tennis Club de Rambouillet pour une saison sportive et conviviale.</p>
+    </div>
+  </section>
+
+  <main>
+    <!-- Bloc: étapes d'inscription et lien vers le PDF du dossier -->
+    <section class="about" id="dossier">
+      <div class="container">
+        <h2>Comment s'inscrire ?</h2>
+        <p>Suivez ces étapes simples pour finaliser votre inscription au club.</p>
+        <ol style="text-align:left; margin: 18px auto; max-width: 780px; line-height: 1.6;">
+          <li>Téléchargez et complétez le dossier d'inscription.</li>
+          <li>Préparez les documents nécessaires (voir ci-dessous).</li>
+          <li>Déposez votre dossier au club house ou lors des permanences.</li>
+        </ol>
+        <p>
+          <!-- Bouton pour télécharger le dossier d'inscription (ouvre un nouvel onglet) -->
+          <a href="pdf/dossier_inscription_club_tennis_rambouillet.pdf" class="cta" aria-disabled="true" target="_blank" title="Bientôt disponible">Télécharger le dossier (PDF)</a>
+        </p>
+
+    <!-- Bloc: liste des documents requis -->
+    <section class="about">
+      <div class="container">
+        <h2>Documents à fournir</h2>
+        <ul style="text-align:left; margin: 18px auto; max-width: 780px; line-height: 1.6;">
+          <li>Formulaire d'inscription complété et signé.</li>
+          <li>Certificat médical ou attestation de santé selon la réglementation en vigueur.</li>
+          <li>Photo d'identité (si nouvelle inscription).</li>
+          <li>Moyen de paiement (chèque, virement, etc.).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Bloc: formules et tarifs (texte informatif) -->
+    <section class="about">
+      <div class="container">
+        <h2>Formules et tarifs</h2>
+        <p>Le club propose des formules adaptées à tous les âges et niveaux&nbsp;: jeunes, adultes loisirs, adultes compétition, et cours collectifs.</p>
+        <p>Les grilles tarifaires détaillées sont disponibles au club et lors des permanences. Contactez-nous pour être orienté vers la formule la plus adaptée.</p>
+      </div>
+    </section>
+
+    <!-- Bloc: contact (bouton renvoyant vers la page Contact ou mail plus tard) -->
+    <section class="about">
+      <div class="container">
+        <h2>Questions ?</h2>
+        <p>Besoin d'aide pour votre inscription ou d'informations complémentaires&nbsp;?</p>
+        <p style="margin-top:16px;">
+          <a href="contact.html" class="cta" title="Contacter le club">Nous contacter</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Tennis Club de Rambouillet — Tous droits réservés</p>
+    </div>
+  </footer>
+  <script src="js/nav-badge.js"></script>
+</body>
+<script>
+// Comportement (optionnel) pour les ancres internes: défilement doux jusqu'à la section ciblée
+document.addEventListener('click', function(e){
+  const a = e.target.closest('a[href^="#"]');
+  if(!a) return;
+  const id = a.getAttribute('href');
+  if(id.length>1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
+});
+</script>
+</html>
