@@ -16,6 +16,17 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS events (
   INDEX idx_event_date (event_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
+// Créer la table des participants aux événements
+$pdo->exec("CREATE TABLE IF NOT EXISTS event_participants (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id INT NOT NULL,
+  user_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_participation (event_id, user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
 $eventError = '';
 $eventSuccess = '';
 $editEvent = null;
@@ -85,11 +96,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
   }
 }
 
-// Récupérer les événements à venir
+// Récupérer les événements à venir avec nombre de participants
 $events = $pdo->query("
-  SELECT * FROM events 
-  WHERE event_date >= CURDATE() 
-  ORDER BY event_date ASC, event_time ASC
+  SELECT e.*, COUNT(ep.user_id) as participants_count
+  FROM events e
+  LEFT JOIN event_participants ep ON e.id = ep.event_id
+  WHERE e.event_date >= CURDATE() 
+  GROUP BY e.id
+  ORDER BY e.event_date ASC, e.event_time ASC
 ")->fetchAll();
 
 // Récupérer l'historique des événements passés
@@ -213,6 +227,9 @@ $pastEvents = $pdo->query("
                   </div>
                 </div>
                   <div style="display:flex;gap:8px;margin:0">
+                    <a href="/tennis-club-rambouillet/php/event-participants.php?event_id=<?php echo $event['id']; ?>" class="btn sec" style="padding:8px 16px;font-size:0.9rem">
+                      Participants (<?php echo $event['participants_count']; ?>)
+                    </a>
                     <a href="/tennis-club-rambouillet/php/admin-events.php?edit=<?php echo $event['id']; ?>" class="btn" style="padding:8px 16px;font-size:0.9rem">Modifier</a>
                     <form method="post" style="margin:0">
                       <input type="hidden" name="action" value="delete_event">
@@ -251,6 +268,13 @@ $pastEvents = $pdo->query("
                       <span>📍 <?php echo htmlspecialchars($event['location']); ?></span>
                     <?php endif; ?>
                   </div>
+                </div>
+                <div style="display:flex;gap:8px;margin:0">
+                  <form method="post" style="margin:0">
+                    <input type="hidden" name="action" value="delete_event">
+                    <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                    <button class="btn warn" type="submit" onclick="return confirm('Supprimer cet événement ?')" style="padding:8px 16px;font-size:0.9rem">Supprimer</button>
+                  </form>
                 </div>
               </div>
             </div>

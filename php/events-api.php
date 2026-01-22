@@ -24,7 +24,35 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // GET : récupérer les événements à venir
 if($method === 'GET'){
-  $stmt = $pdo->query("SELECT * FROM events WHERE event_date >= CURDATE() ORDER BY event_date ASC, event_time ASC");
+  $userId = is_logged_in() ? current_user()['id'] : null;
+  
+  if($userId){
+    // Pour un utilisateur connecté, inclure le statut de participation
+    $stmt = $pdo->prepare("
+      SELECT e.*, 
+        COUNT(ep.user_id) as participants_count,
+        MAX(CASE WHEN ep.user_id = ? THEN 1 ELSE 0 END) as is_participating
+      FROM events e
+      LEFT JOIN event_participants ep ON e.id = ep.event_id
+      WHERE e.event_date >= CURDATE()
+      GROUP BY e.id
+      ORDER BY e.event_date ASC, e.event_time ASC
+    ");
+    $stmt->execute([$userId]);
+  } else {
+    // Pour les visiteurs, juste compter les participants
+    $stmt = $pdo->query("
+      SELECT e.*, 
+        COUNT(ep.user_id) as participants_count,
+        0 as is_participating
+      FROM events e
+      LEFT JOIN event_participants ep ON e.id = ep.event_id
+      WHERE e.event_date >= CURDATE()
+      GROUP BY e.id
+      ORDER BY e.event_date ASC, e.event_time ASC
+    ");
+  }
+  
   $events = $stmt->fetchAll();
   echo json_encode(['success' => true, 'events' => $events]);
   exit;

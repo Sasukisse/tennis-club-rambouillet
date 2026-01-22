@@ -151,12 +151,23 @@ try{
         }
         
         const events = json.events;
+        const userId = <?php echo $u['id']; ?>;
         
         container.innerHTML = events.map(e => {
           const date = new Date(e.event_date);
           const dateStr = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-          let html = '<div style="background:#f9f9f9;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px">';
-          html += '<h4 style="margin-bottom:4px;color:#F95E2D">' + e.title + '</h4>';
+          const isParticipating = Boolean(Number(e.is_participating));
+          const participantsCount = e.participants_count || 0;
+          
+          let html = '<div style="background:#f9f9f9;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px;position:relative">';
+          
+          // Bouton Je participe en haut à droite
+          html += '<div style="position:absolute;top:12px;right:12px">';
+          html += '<button class="btn-participate" data-event-id="' + e.id + '" data-participating="' + isParticipating + '" style="padding:6px 14px;font-size:0.85rem;background:' + (isParticipating ? '#1b5e20' : '#F95E2D') + ';color:#FFF8E9;border:none;border-radius:20px;cursor:pointer;font-family:Montserrat,Arial,sans-serif;font-weight:bold;transition:all 0.2s">';
+          html += isParticipating ? 'Annuler' : 'Je participe';
+          html += '</button></div>';
+          
+          html += '<h4 style="margin-bottom:4px;color:#F95E2D;padding-right:130px">' + e.title + '</h4>';
           if(e.description){
             html += '<p style="color:#666;font-size:0.95rem;margin:4px 0">' + e.description.replace(/\n/g, '<br>') + '</p>';
           }
@@ -168,9 +179,57 @@ try{
           if(e.location){
             html += '<span>📍 ' + e.location + '</span>';
           }
+          html += '<span>👥 ' + participantsCount + ' participant(s)</span>';
           html += '</div></div>';
           return html;
         }).join('');
+        
+        // Ajouter les gestionnaires d'événements pour les boutons
+        document.querySelectorAll('.btn-participate').forEach(btn => {
+          btn.addEventListener('click', async function(){
+            const eventId = this.dataset.eventId;
+            const isParticipating = this.dataset.participating === 'true';
+            const button = this;
+            
+            // Log pour debug
+            console.log('Clic sur bouton - Event ID:', eventId, 'Participe actuellement:', isParticipating, 'Action:', isParticipating ? 'leave' : 'join');
+            
+            // Désactiver le bouton pendant la requête
+            button.disabled = true;
+            button.style.opacity = '0.6';
+            button.style.cursor = 'wait';
+            
+            try{
+              const res = await fetch('/tennis-club-rambouillet/php/event-participate.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  event_id: eventId,
+                  action: isParticipating ? 'leave' : 'join'
+                })
+              });
+              
+              const result = await res.json();
+              console.log('Réponse API:', result);
+              
+              if(result.success){
+                // Recharger la page pour avoir l'état exact de la base de données
+                location.reload();
+              } else {
+                alert(result.error || 'Erreur lors de la mise à jour');
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
+                button.disabled = false;
+              }
+            }catch(e){
+              console.error('Erreur:', e);
+              alert('Erreur de connexion');
+              button.style.opacity = '1';
+              button.style.cursor = 'pointer';
+              button.disabled = false;
+            }
+          });
+        });
       }catch(e){
         console.error('Erreur de chargement des événements:', e);
         document.getElementById('events-container').innerHTML = '<p style="color:#b00020">Erreur de chargement.</p>';
