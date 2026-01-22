@@ -28,18 +28,19 @@
 .btn.sec { background: #202226; color: #FFF8E9; }
 .btn.warn { background: #8b0000; }
 
-/* Navigation admin avec 3 boutons alignés */
+/* Navigation admin avec 4 boutons (2x2) */
 .admin-navigation {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
-  flex-wrap: wrap;
   justify-content: center;
   margin-top: 24px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .admin-navigation .btn {
-  flex: 1;
-  min-width: 250px;
-  max-width: 350px;
   text-align: center;
+  min-width: 0;
 }

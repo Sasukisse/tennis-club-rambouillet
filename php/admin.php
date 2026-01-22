@@ -181,6 +181,7 @@ $pastEvents = $pdo->query("
       <a href="/tennis-club-rambouillet/php/admin-users.php" class="btn">Gérer les utilisateurs</a>
       <a href="/tennis-club-rambouillet/php/admin-bookings.php" class="btn">Gérer les réservations</a>
       <a href="/tennis-club-rambouillet/php/admin-events.php" class="btn">Gérer les événements</a>
+      <a href="/tennis-club-rambouillet/php/admin-tournaments.php" class="btn">Gérer les tournois</a>
     </div>
     
     <div style="margin-top:32px;text-align:center">
