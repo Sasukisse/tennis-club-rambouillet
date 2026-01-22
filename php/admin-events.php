@@ -18,8 +18,17 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS events (
 
 $eventError = '';
 $eventSuccess = '';
+$editEvent = null;
 
-// Gestion des événements
+// Récupérer l'événement à modifier si demandé
+if(isset($_GET['edit'])){
+  $edit_id = intval($_GET['edit']);
+  $stmt = $pdo->prepare("SELECT * FROM events WHERE id = ? LIMIT 1");
+  $stmt->execute([$edit_id]);
+  $editEvent = $stmt->fetch();
+}
+
+// Gestion des événements - Création
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'create_event'){
   $title = trim($_POST['event_title'] ?? '');
   $description = trim($_POST['event_description'] ?? '');
@@ -39,6 +48,32 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
       $location ?: null
     ]);
     $eventSuccess = 'Événement créé avec succès.';
+  }
+}
+
+// Gestion des événements - Modification
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_event'){
+  $event_id = intval($_POST['event_id'] ?? 0);
+  $title = trim($_POST['event_title'] ?? '');
+  $description = trim($_POST['event_description'] ?? '');
+  $event_date = trim($_POST['event_date'] ?? '');
+  $event_time = trim($_POST['event_time'] ?? '');
+  $location = trim($_POST['event_location'] ?? '');
+  
+  if(empty($title) || empty($event_date)){
+    $eventError = 'Le titre et la date sont obligatoires.';
+  } else if($event_id > 0){
+    $stmt = $pdo->prepare("UPDATE events SET title=?, description=?, event_date=?, event_time=?, location=? WHERE id=?");
+    $stmt->execute([
+      $title,
+      $description ?: null,
+      $event_date,
+      $event_time ?: null,
+      $location ?: null,
+      $event_id
+    ]);
+    header('Location: /tennis-club-rambouillet/php/admin-events.php?updated=1');
+    exit;
   }
 }
 
@@ -92,53 +127,62 @@ $pastEvents = $pdo->query("
   <section class="hero"><div class="container"><h1>Gestion des événements</h1><p><a href="/tennis-club-rambouillet/php/admin.php" style="color:#FFF8E9;text-decoration:underline">← Retour au panel admin</a></p></div></section>
   <main class="admin"><div class="container">
     
-    <!-- Création d'événement -->
-    <section class="card" aria-label="Créer un événement">
-      <h3>Créer un événement</h3>
+    <!-- Création/Modification d'événement -->
+    <section class="card" aria-label="<?php echo $editEvent ? 'Modifier' : 'Créer'; ?> un événement">
+      <h3><?php echo $editEvent ? 'Modifier l\'événement' : 'Créer un événement'; ?></h3>
       <?php if($eventError): ?>
         <p style="color:#b00020;margin:8px 0"><?php echo htmlspecialchars($eventError); ?></p>
       <?php endif; ?>
       <?php if($eventSuccess): ?>
         <p style="color:#1b5e20;margin:8px 0"><?php echo htmlspecialchars($eventSuccess); ?></p>
       <?php endif; ?>
+      <?php if(isset($_GET['updated'])): ?>
+        <p style="color:#1b5e20;margin:8px 0">Événement modifié avec succès.</p>
+      <?php endif; ?>
       
       <form method="post" class="create-event" autocomplete="off">
-        <input type="hidden" name="action" value="create_event">
+        <input type="hidden" name="action" value="<?php echo $editEvent ? 'update_event' : 'create_event'; ?>">
+        <?php if($editEvent): ?>
+          <input type="hidden" name="event_id" value="<?php echo $editEvent['id']; ?>">
+        <?php endif; ?>
         <div class="form-row">
           <div class="form-field">
             <label>Titre de l'événement : *
-              <input type="text" name="event_title" required>
+              <input type="text" name="event_title" value="<?php echo $editEvent ? htmlspecialchars($editEvent['title']) : ''; ?>" required>
             </label>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label>Description :
-              <textarea name="event_description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #e7dcc9;border-radius:10px;font-family:inherit;resize:vertical"></textarea>
+              <textarea name="event_description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #e7dcc9;border-radius:10px;font-family:inherit;resize:vertical"><?php echo $editEvent ? htmlspecialchars($editEvent['description']) : ''; ?></textarea>
             </label>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label>Date : *
-              <input type="date" name="event_date" required>
+              <input type="date" name="event_date" value="<?php echo $editEvent ? htmlspecialchars($editEvent['event_date']) : ''; ?>" required>
             </label>
           </div>
           <div class="form-field">
             <label>Heure :
-              <input type="time" name="event_time">
+              <input type="time" name="event_time" value="<?php echo $editEvent && $editEvent['event_time'] ? htmlspecialchars($editEvent['event_time']) : ''; ?>">
             </label>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label>Lieu :
-              <input type="text" name="event_location" placeholder="Ex: Club house, Terrain 1...">
+              <input type="text" name="event_location" value="<?php echo $editEvent ? htmlspecialchars($editEvent['location']) : ''; ?>" placeholder="Ex: Club house, Terrain 1...">
             </label>
           </div>
         </div>
         <div class="form-row" style="margin-top:10px">
-          <button class="btn" type="submit">Créer l'événement</button>
+          <button class="btn" type="submit"><?php echo $editEvent ? 'Modifier l\'événement' : 'Créer l\'événement'; ?></button>
+          <?php if($editEvent): ?>
+            <a href="/tennis-club-rambouillet/php/admin-events.php" class="btn sec">Annuler</a>
+          <?php endif; ?>
         </div>
       </form>
     </section>
@@ -168,11 +212,14 @@ $pastEvents = $pdo->query("
                     <?php endif; ?>
                   </div>
                 </div>
-                <form method="post" style="margin:0">
-                  <input type="hidden" name="action" value="delete_event">
-                  <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                  <button class="btn warn" type="submit" onclick="return confirm('Supprimer cet événement ?')" style="padding:8px 16px;font-size:0.9rem">Supprimer</button>
-                </form>
+                  <div style="display:flex;gap:8px;margin:0">
+                    <a href="/tennis-club-rambouillet/php/admin-events.php?edit=<?php echo $event['id']; ?>" class="btn" style="padding:8px 16px;font-size:0.9rem">Modifier</a>
+                    <form method="post" style="margin:0">
+                      <input type="hidden" name="action" value="delete_event">
+                      <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                      <button class="btn warn" type="submit" onclick="return confirm('Supprimer cet événement ?')" style="padding:8px 16px;font-size:0.9rem">Supprimer</button>
+                    </form>
+                  </div>
               </div>
             </div>
           <?php endforeach; ?>
