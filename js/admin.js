@@ -5,6 +5,7 @@
 */
 (function(){
   document.addEventListener('DOMContentLoaded', function(){
+    // Confirmation des actions sensibles
     document.querySelectorAll('form.actions').forEach(function(form){
       form.addEventListener('submit', function(ev){
         if(!confirm("Confirmer l'action ?")){

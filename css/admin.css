@@ -29,3 +29,19 @@
 .btn:hover { background: #FFF8E9; color: #F95E2D; border-color: #F95E2D; transform: scale(1.03); }
 .btn.sec { background: #202226; color: #FFF8E9; }
 .btn.warn { background: #8b0000; }
+
+/* Navigation admin avec 3 boutons alignés */
+.admin-navigation {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.admin-navigation .btn {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+  text-align: center;
+}

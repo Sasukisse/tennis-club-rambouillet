@@ -140,6 +140,13 @@ $events = $pdo->query("
   WHERE event_date >= CURDATE() 
   ORDER BY event_date ASC, event_time ASC
 ")->fetchAll();
+
+// Récupérer l'historique des événements passés
+$pastEvents = $pdo->query("
+  SELECT * FROM events 
+  WHERE event_date < CURDATE() 
+  ORDER BY event_date DESC, event_time DESC
+")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr"><head>
@@ -166,212 +173,275 @@ $events = $pdo->query("
     </ul></nav>
   </div></header>
 
-  <section class="hero"><div class="container"><h1>Administration</h1><p>Gestion des comptes utilisateurs et des événements.</p></div></section>
+  <section class="hero"><div class="container"><h1>Administration</h1><p>Gestion des comptes utilisateurs, des réservations et des événements.</p></div></section>
   <main class="admin"><div class="container">
     
-    <!-- Création d'événement -->
-    <section class="card" aria-label="Créer un événement">
-      <h3>Créer un événement</h3>
-      <?php if($eventError): ?>
-        <p style="color:#b00020;margin:8px 0"><?php echo htmlspecialchars($eventError); ?></p>
-      <?php endif; ?>
-      <?php if($eventSuccess): ?>
-        <p style="color:#1b5e20;margin:8px 0"><?php echo htmlspecialchars($eventSuccess); ?></p>
-      <?php endif; ?>
-      
-      <form method="post" class="create-event" autocomplete="off">
-        <input type="hidden" name="action" value="create_event">
-        <div class="form-row">
-          <div class="form-field">
-            <label>Titre de l'événement : *
-              <input type="text" name="event_title" required>
-            </label>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label>Description :
-              <textarea name="event_description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #e7dcc9;border-radius:10px;font-family:inherit;resize:vertical"></textarea>
-            </label>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label>Date : *
-              <input type="date" name="event_date" required>
-            </label>
-          </div>
-          <div class="form-field">
-            <label>Heure :
-              <input type="time" name="event_time">
-            </label>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label>Lieu :
-              <input type="text" name="event_location" placeholder="Ex: Club house, Terrain 1...">
-            </label>
-          </div>
-        </div>
-        <div class="form-row" style="margin-top:10px">
-          <button class="btn" type="submit">Créer l'événement</button>
-        </div>
-      </form>
-    </section>
-    
-    <!-- Liste des événements à venir -->
-    <section class="card" aria-label="Événements à venir">
-      <h3>Événements à venir</h3>
-      <?php if(empty($events)): ?>
-        <p style="color:#666;margin-top:8px">Aucun événement à venir.</p>
-      <?php else: ?>
-        <div style="margin-top:16px">
-          <?php foreach($events as $event): ?>
-            <div style="background:#fff;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px">
-              <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
-                <div style="flex:1">
-                  <h4 style="margin-bottom:4px"><?php echo htmlspecialchars($event['title']); ?></h4>
-                  <?php if($event['description']): ?>
-                    <p style="color:#666;font-size:0.95rem;margin:4px 0"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
-                  <?php endif; ?>
-                  <div style="display:flex;gap:16px;margin-top:8px;font-size:0.95rem;color:#555">
-                    <span>📅 <?php echo date('d/m/Y', strtotime($event['event_date'])); ?></span>
-                    <?php if($event['event_time']): ?>
-                      <span>🕐 <?php echo substr($event['event_time'], 0, 5); ?></span>
-                    <?php endif; ?>
-                    <?php if($event['location']): ?>
-                      <span>📍 <?php echo htmlspecialchars($event['location']); ?></span>
-                    <?php endif; ?>
-                  </div>
-                </div>
-                <form method="post" style="margin:0">
-                  <input type="hidden" name="action" value="delete_event">
-                  <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                  <button class="btn warn" type="submit" onclick="return confirm('Supprimer cet événement ?')" style="padding:8px 16px;font-size:0.9rem">Supprimer</button>
-                </form>
-              </div>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
-    </section>
-    
-    <!-- Création d'un utilisateur -->
-    <section class="card" aria-label="Créer un utilisateur">
-      <h3>Créer un utilisateur</h3>
-      <?php if($createError){ echo '<p style="color:#b00020;margin:8px 0">'.htmlspecialchars($createError).'</p>'; } ?>
-      <?php if(isset($_GET['created'])){ echo '<p style="color:#1b5e20;margin:8px 0">Utilisateur créé avec succès.</p>'; } ?>
-      <?php if(isset($_GET['error']) && $_GET['error'] === 'own_account'){ echo '<p style="color:#b00020;margin:8px 0">Vous ne pouvez pas modifier ou supprimer votre propre compte.</p>'; } ?>
-      <form method="post" class="create-user" autocomplete="off">
-        <input type="hidden" name="action" value="create">
-        <div class="form-row"><div class="form-field"><label>Nom complet :<input type="text" name="full_name" required></label></div></div>
-        <div class="form-row"><div class="form-field"><label>Email :<input type="email" name="email" required></label></div></div>
-        <div class="form-row"><div class="form-field"><label>Mot de passe :<input type="password" name="password" required></label></div></div>
-        <div class="form-row"><div class="form-field"><label>Rôle :
-          <select name="role">
-            <option value="Membre" selected>Membre</option>
-            <option value="Admin">Admin</option>
-          </select>
-        </label></div></div>
-        <div class="form-row" style="margin-top:10px">
-          <button class="btn" type="submit">Créer l'utilisateur</button>
-        </div>
-      </form>
-    </section>
-    <!-- Tableau des utilisateurs avec actions -->
-    <table class="table" aria-label="Utilisateurs">
-      <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Créé le</th><th>Actions</th></tr></thead>
-      <tbody>
-        <?php foreach($users as $us): ?>
-          <tr>
-            <td><?php echo htmlspecialchars($us['full_name']); ?></td>
-            <td><?php echo htmlspecialchars($us['email']); ?></td>
-            <td><?php echo htmlspecialchars($us['role']); ?></td>
-            <td><?php echo htmlspecialchars($us['created_at']); ?></td>
-            <td>
-              <!-- Formulaire d'actions par ligne (POST) -->
-              <!-- Formulaire d'actions par ligne (POST) avec confirmation JS -->
-              <?php if(intval($us['id']) === intval($currentUser['id'])): ?>
-                <span style="color:#666;font-style:italic">Moi</span>
-              <?php else: ?>
-                <form method="post" class="actions">
-                  <input type="hidden" name="id" value="<?php echo intval($us['id']); ?>">
-                  <?php if($us['role']!=='Admin'): ?>
-                    <button class="btn" name="action" value="promote">Promouvoir admin</button>
-                  <?php else: ?>
-                    <button class="btn sec" name="action" value="demote">Rétrograder membre</button>
-                  <?php endif; ?>
-                  <button class="btn warn" name="action" value="delete" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</button>
-                </form>
-              <?php endif; ?>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-    
-    <!-- Section réservations de terrains -->
-    <h2 style="margin-top:32px;margin-bottom:16px">Réservations de terrains</h2>
-    
-    <div class="card" style="margin-bottom:16px">
-      <h3>Réservations en cours (<?php echo count($currentBookings); ?>)</h3>
-      <?php if(empty($currentBookings)): ?>
-        <p style="color:#666;margin-top:8px">Aucune réservation en cours.</p>
-      <?php else: ?>
-        <table class="table" style="margin-top:12px">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Terrain</th>
-              <th>Horaire</th>
-              <th>Utilisateur</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach($currentBookings as $b): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($b['date']); ?></td>
-                <td><?php echo htmlspecialchars($b['court']); ?></td>
-                <td><?php echo substr($b['start_time'],0,5); ?> – <?php echo substr($b['end_time'],0,5); ?></td>
-                <td><?php echo htmlspecialchars($b['full_name']); ?></td>
-                <td><?php echo htmlspecialchars($b['email']); ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      <?php endif; ?>
+    <!-- Navigation entre les sections -->
+    <div class="admin-navigation">
+      <a href="/tennis-club-rambouillet/php/admin-users.php" class="btn">Gérer les utilisateurs</a>
+      <a href="/tennis-club-rambouillet/php/admin-bookings.php" class="btn">Gérer les réservations</a>
+      <a href="/tennis-club-rambouillet/php/admin-events.php" class="btn">Gérer les événements</a>
     </div>
     
-    <div class="card">
-      <h3>Historique des réservations (<?php echo count($pastBookings); ?>)</h3>
-      <?php if(empty($pastBookings)): ?>
-        <p style="color:#666;margin-top:8px">Aucune réservation passée.</p>
-      <?php else: ?>
-        <table class="table" style="margin-top:12px;opacity:0.8">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Terrain</th>
-              <th>Horaire</th>
-              <th>Utilisateur</th>
-              <th>Email</th>
-            </tr>
-          </thead>
+    <div style="margin-top:32px;text-align:center">
+      <p style="color:#666;font-size:1.1rem">Sélectionnez une section ci-dessus pour commencer.</p>
+    </div>
+    
+    <div class="form-row" style="margin-top:32px;justify-content:center">
+      <a class="btn sec" href="/tennis-club-rambouillet/php/logout.php">Se déconnecter</a>
+    </div>
+  </div></main>
+
+  <footer><div class="container"><p>&copy; 2025 Tennis Club de Rambouillet</p></div></footer>
+  <script src="/tennis-club-rambouillet/js/admin.js"></script>
+</body></html>
+        <h3>Créer un utilisateur</h3>
+        <?php if($createError){ echo '<p style="color:#b00020;margin:8px 0">'.htmlspecialchars($createError).'</p>'; } ?>
+        <?php if(isset($_GET['created'])){ echo '<p style="color:#1b5e20;margin:8px 0">Utilisateur créé avec succès.</p>'; } ?>
+        <?php if(isset($_GET['error']) && $_GET['error'] === 'own_account'){ echo '<p style="color:#b00020;margin:8px 0">Vous ne pouvez pas modifier ou supprimer votre propre compte.</p>'; } ?>
+        <form method="post" class="create-user" autocomplete="off">
+          <input type="hidden" name="action" value="create">
+          <div class="form-row"><div class="form-field"><label>Nom complet :<input type="text" name="full_name" required></label></div></div>
+          <div class="form-row"><div class="form-field"><label>Email :<input type="email" name="email" required></label></div></div>
+          <div class="form-row"><div class="form-field"><label>Mot de passe :<input type="password" name="password" required></label></div></div>
+          <div class="form-row"><div class="form-field"><label>Rôle :
+            <select name="role">
+              <option value="Membre" selected>Membre</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </label></div></div>
+          <div class="form-row" style="margin-top:10px">
+            <button class="btn" type="submit">Créer l'utilisateur</button>
+          </div>
+        </form>
+      </section>
+      
+      <!-- Tableau des utilisateurs avec actions -->
+      <section class="card">
+        <h3>Utilisateurs actuels (<?php echo count($users); ?>)</h3>
+        <table class="table" style="margin-top:12px">
+          <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Créé le</th><th>Actions</th></tr></thead>
           <tbody>
-            <?php foreach($pastBookings as $b): ?>
+            <?php foreach($users as $us): ?>
               <tr>
-                <td><?php echo htmlspecialchars($b['date']); ?></td>
-                <td><?php echo htmlspecialchars($b['court']); ?></td>
-                <td><?php echo substr($b['start_time'],0,5); ?> – <?php echo substr($b['end_time'],0,5); ?></td>
-                <td><?php echo htmlspecialchars($b['full_name']); ?></td>
-                <td><?php echo htmlspecialchars($b['email']); ?></td>
+                <td><?php echo htmlspecialchars($us['full_name']); ?></td>
+                <td><?php echo htmlspecialchars($us['email']); ?></td>
+                <td><?php echo htmlspecialchars($us['role']); ?></td>
+                <td><?php echo htmlspecialchars($us['created_at']); ?></td>
+                <td>
+                  <?php if(intval($us['id']) === intval($currentUser['id'])): ?>
+                    <span style="color:#666;font-style:italic">Moi</span>
+                  <?php else: ?>
+                    <form method="post" class="actions">
+                      <input type="hidden" name="id" value="<?php echo intval($us['id']); ?>">
+                      <?php if($us['role']!=='Admin'): ?>
+                        <button class="btn" name="action" value="promote">Promouvoir admin</button>
+                      <?php else: ?>
+                        <button class="btn sec" name="action" value="demote">Rétrograder membre</button>
+                      <?php endif; ?>
+                      <button class="btn warn" name="action" value="delete" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</button>
+                    </form>
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
-      <?php endif; ?>
+      </section>
+    </div>
+    
+    <!-- Bouton: Gérer les réservations -->
+    <button class="btn admin-section-toggle" data-section="bookings">
+      <span>Gérer les réservations</span>
+      <span class="toggle-icon">▼</span>
+    </button>
+    <div class="admin-section" id="section-bookings">
+      <section class="card" style="margin-bottom:16px">
+        <h3>Réservations en cours (<?php echo count($currentBookings); ?>)</h3>
+        <?php if(empty($currentBookings)): ?>
+          <p style="color:#666;margin-top:8px">Aucune réservation en cours.</p>
+        <?php else: ?>
+          <table class="table" style="margin-top:12px">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Terrain</th>
+                <th>Horaire</th>
+                <th>Utilisateur</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($currentBookings as $b): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($b['date']); ?></td>
+                  <td><?php echo htmlspecialchars($b['court']); ?></td>
+                  <td><?php echo substr($b['start_time'],0,5); ?> – <?php echo substr($b['end_time'],0,5); ?></td>
+                  <td><?php echo htmlspecialchars($b['full_name']); ?></td>
+                  <td><?php echo htmlspecialchars($b['email']); ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+      </section>
+      
+      <section class="card">
+        <h3>Historique des réservations (<?php echo count($pastBookings); ?>)</h3>
+        <?php if(empty($pastBookings)): ?>
+          <p style="color:#666;margin-top:8px">Aucune réservation passée.</p>
+        <?php else: ?>
+          <table class="table" style="margin-top:12px;opacity:0.8">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Terrain</th>
+                <th>Horaire</th>
+                <th>Utilisateur</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($pastBookings as $b): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($b['date']); ?></td>
+                  <td><?php echo htmlspecialchars($b['court']); ?></td>
+                  <td><?php echo substr($b['start_time'],0,5); ?> – <?php echo substr($b['end_time'],0,5); ?></td>
+                  <td><?php echo htmlspecialchars($b['full_name']); ?></td>
+                  <td><?php echo htmlspecialchars($b['email']); ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+      </section>
+    </div>
+    
+    <!-- Bouton: Gérer les évènements -->
+    <button class="btn admin-section-toggle" data-section="events">
+      <span>Gérer les évènements</span>
+      <span class="toggle-icon">▼</span>
+    </button>
+    <div class="admin-section" id="section-events">
+      <!-- Création d'événement -->
+      <section class="card" aria-label="Créer un événement">
+        <h3>Créer un événement</h3>
+        <?php if($eventError): ?>
+          <p style="color:#b00020;margin:8px 0"><?php echo htmlspecialchars($eventError); ?></p>
+        <?php endif; ?>
+        <?php if($eventSuccess): ?>
+          <p style="color:#1b5e20;margin:8px 0"><?php echo htmlspecialchars($eventSuccess); ?></p>
+        <?php endif; ?>
+        
+        <form method="post" class="create-event" autocomplete="off">
+          <input type="hidden" name="action" value="create_event">
+          <div class="form-row">
+            <div class="form-field">
+              <label>Titre de l'événement : *
+                <input type="text" name="event_title" required>
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Description :
+                <textarea name="event_description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #e7dcc9;border-radius:10px;font-family:inherit;resize:vertical"></textarea>
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Date : *
+                <input type="date" name="event_date" required>
+              </label>
+            </div>
+            <div class="form-field">
+              <label>Heure :
+                <input type="time" name="event_time">
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Lieu :
+                <input type="text" name="event_location" placeholder="Ex: Club house, Terrain 1...">
+              </label>
+            </div>
+          </div>
+          <div class="form-row" style="margin-top:10px">
+            <button class="btn" type="submit">Créer l'événement</button>
+          </div>
+        </form>
+      </section>
+      
+      <!-- Liste des événements à venir -->
+      <section class="card" aria-label="Événements à venir">
+        <h3>Événements en cours (<?php echo count($events); ?>)</h3>
+        <?php if(empty($events)): ?>
+          <p style="color:#666;margin-top:8px">Aucun événement à venir.</p>
+        <?php else: ?>
+          <div style="margin-top:16px">
+            <?php foreach($events as $event): ?>
+              <div style="background:#fff;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+                  <div style="flex:1">
+                    <h4 style="margin-bottom:4px"><?php echo htmlspecialchars($event['title']); ?></h4>
+                    <?php if($event['description']): ?>
+                      <p style="color:#666;font-size:0.95rem;margin:4px 0"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
+                    <?php endif; ?>
+                    <div style="display:flex;gap:16px;margin-top:8px;font-size:0.95rem;color:#555">
+                      <span>📅 <?php echo date('d/m/Y', strtotime($event['event_date'])); ?></span>
+                      <?php if($event['event_time']): ?>
+                        <span>🕐 <?php echo substr($event['event_time'], 0, 5); ?></span>
+                      <?php endif; ?>
+                      <?php if($event['location']): ?>
+                        <span>📍 <?php echo htmlspecialchars($event['location']); ?></span>
+                      <?php endif; ?>
+                    </div>
+                  </div>
+                  <form method="post" style="margin:0">
+                    <input type="hidden" name="action" value="delete_event">
+                    <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                    <button class="btn warn" type="submit" onclick="return confirm('Supprimer cet événement ?')" style="padding:8px 16px;font-size:0.9rem">Supprimer</button>
+                  </form>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+      </section>
+      
+      <!-- Historique des événements -->
+      <section class="card" aria-label="Historique des événements">
+        <h3>Historique des événements (<?php echo count($pastEvents); ?>)</h3>
+        <?php if(empty($pastEvents)): ?>
+          <p style="color:#666;margin-top:8px">Aucun événement passé.</p>
+        <?php else: ?>
+          <div style="margin-top:16px;opacity:0.8">
+            <?php foreach($pastEvents as $event): ?>
+              <div style="background:#fff;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+                  <div style="flex:1">
+                    <h4 style="margin-bottom:4px"><?php echo htmlspecialchars($event['title']); ?></h4>
+                    <?php if($event['description']): ?>
+                      <p style="color:#666;font-size:0.95rem;margin:4px 0"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
+                    <?php endif; ?>
+                    <div style="display:flex;gap:16px;margin-top:8px;font-size:0.95rem;color:#555">
+                      <span>📅 <?php echo date('d/m/Y', strtotime($event['event_date'])); ?></span>
+                      <?php if($event['event_time']): ?>
+                        <span>🕐 <?php echo substr($event['event_time'], 0, 5); ?></span>
+                      <?php endif; ?>
+                      <?php if($event['location']): ?>
+                        <span>📍 <?php echo htmlspecialchars($event['location']); ?></span>
+                      <?php endif; ?>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+      </section>
     </div>
     
     <div class="form-row" style="margin-top:16px">
