@@ -110,6 +110,14 @@ try{
       <div style="margin-top:12px"><a class="btn" href="/tennis-club-rambouillet/php/logout.php">Se déconnecter</a></div>
     </section>
     
+    <!-- Carte: tournois à venir -->
+    <section class="card">
+      <h3>Tournois à venir</h3>
+      <div id="tournaments-container" style="max-height: 500px; overflow-y: auto;">
+        <p style="color:#666;margin-top:8px">Chargement...</p>
+      </div>
+    </section>
+    
     <!-- Carte réservations de terrains -->
     <section class="card">
       <h3>Mes réservations de terrains</h3>
@@ -233,6 +241,109 @@ try{
       }catch(e){
         console.error('Erreur de chargement des événements:', e);
         document.getElementById('events-container').innerHTML = '<p style="color:#b00020">Erreur de chargement.</p>';
+      }
+    })();
+    
+    // Charger et afficher les tournois à venir
+    (async function(){
+      try{
+        const res = await fetch('/tennis-club-rambouillet/php/tournaments-api.php');
+        const json = await res.json();
+        const container = document.getElementById('tournaments-container');
+        
+        if(!json.success || !json.tournaments || json.tournaments.length === 0){
+          container.innerHTML = '<p style="color:#666;margin-top:8px">Aucun tournoi à venir.</p>';
+          return;
+        }
+        
+        const tournaments = json.tournaments;
+        const userId = <?php echo $u['id']; ?>;
+        
+        container.innerHTML = tournaments.map(t => {
+          const startDate = new Date(t.start_date);
+          const startDateStr = startDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          const isParticipating = Boolean(Number(t.is_participating));
+          const participantsCount = t.participants_count || 0;
+          
+          let html = '<div style="background:#f9f9f9;border:1px solid #e7dcc9;border-radius:8px;padding:12px;margin-bottom:12px;position:relative">';
+          
+          // Bouton Je participe en haut à droite
+          html += '<div style="position:absolute;top:12px;right:12px">';
+          html += '<button class="btn-participate-tournament" data-tournament-id="' + t.id + '" data-participating="' + isParticipating + '" style="padding:6px 14px;font-size:0.85rem;background:' + (isParticipating ? '#1b5e20' : '#F95E2D') + ';color:#FFF8E9;border:none;border-radius:20px;cursor:pointer;font-family:Montserrat,Arial,sans-serif;font-weight:bold;transition:all 0.2s">';
+          html += isParticipating ? '✓ Annuler' : 'Je participe';
+          html += '</button></div>';
+          
+          html += '<h4 style="margin-bottom:4px;color:#F95E2D;padding-right:130px">' + t.title + '</h4>';
+          if(t.description){
+            html += '<p style="color:#666;font-size:0.95rem;margin:4px 0">' + t.description.replace(/\n/g, '<br>') + '</p>';
+          }
+          html += '<div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;font-size:0.95rem;color:#555">';
+          html += '<span>📅 ' + startDateStr + '</span>';
+          if(t.end_date){
+            const endDate = new Date(t.end_date);
+            html += '<span>📅 Fin: ' + endDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) + '</span>';
+          }
+          if(t.location){
+            html += '<span>📍 ' + t.location + '</span>';
+          }
+          html += '<span>👥 ' + participantsCount + ' participant(s)</span>';
+          if(t.max_participants){
+            html += '<span>🎯 Max: ' + t.max_participants + '</span>';
+          }
+          if(t.registration_deadline){
+            const deadline = new Date(t.registration_deadline);
+            html += '<span>⏰ Limite: ' + deadline.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) + '</span>';
+          }
+          html += '</div></div>';
+          return html;
+        }).join('');
+        
+        // Ajouter les gestionnaires d'événements pour les boutons
+        document.querySelectorAll('.btn-participate-tournament').forEach(btn => {
+          btn.addEventListener('click', async function(){
+            const tournamentId = this.dataset.tournamentId;
+            const isParticipating = this.dataset.participating === 'true';
+            const button = this;
+            
+            console.log('Clic sur bouton tournoi - ID:', tournamentId, 'Participe actuellement:', isParticipating, 'Action:', isParticipating ? 'leave' : 'join');
+            
+            button.disabled = true;
+            button.style.opacity = '0.6';
+            button.style.cursor = 'wait';
+            
+            try{
+              const res = await fetch('/tennis-club-rambouillet/php/tournament-participate.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  tournament_id: tournamentId,
+                  action: isParticipating ? 'leave' : 'join'
+                })
+              });
+              
+              const result = await res.json();
+              console.log('Réponse API tournoi:', result);
+              
+              if(result.success){
+                location.reload();
+              } else {
+                alert(result.error || 'Erreur lors de la mise à jour');
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
+                button.disabled = false;
+              }
+            }catch(e){
+              console.error('Erreur:', e);
+              alert('Erreur de connexion');
+              button.style.opacity = '1';
+              button.style.cursor = 'pointer';
+              button.disabled = false;
+            }
+          });
+        });
+      }catch(e){
+        console.error('Erreur de chargement des tournois:', e);
+        document.getElementById('tournaments-container').innerHTML = '<p style="color:#b00020">Erreur de chargement.</p>';
       }
     })();
     

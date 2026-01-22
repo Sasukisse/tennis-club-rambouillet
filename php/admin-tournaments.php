@@ -99,8 +99,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
   }
 }
 
-// Récupérer tous les tournois
-$tournaments = $pdo->query("SELECT * FROM tournaments ORDER BY start_date ASC")->fetchAll();
+// Récupérer tous les tournois avec nombre de participants
+$tournaments = $pdo->query("
+  SELECT t.*, COUNT(tp.user_id) as participants_count
+  FROM tournaments t
+  LEFT JOIN tournament_participants tp ON t.id = tp.tournament_id
+  GROUP BY t.id
+  ORDER BY t.start_date ASC
+")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -254,6 +260,9 @@ $tournaments = $pdo->query("SELECT * FROM tournaments ORDER BY start_date ASC")-
                     </div>
                   </div>
                   <div style="display:flex;gap:8px;margin:0">
+                    <a href="/tennis-club-rambouillet/php/tournament-participants.php?tournament_id=<?= $tournament['id'] ?>" class="btn sec" style="padding:8px 16px;font-size:0.9rem">
+                      Participants (<?= $tournament['participants_count'] ?>)
+                    </a>
                     <a href="/tennis-club-rambouillet/php/admin-tournaments.php?edit=<?= $tournament['id'] ?>" class="btn" style="padding:8px 16px;font-size:0.9rem">Modifier</a>
                     <form method="post" style="margin:0">
                       <input type="hidden" name="action" value="delete_tournament">
