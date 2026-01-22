@@ -75,7 +75,7 @@ try{
     <!-- Carte: événements à venir -->
     <section class="card">
       <h3>Événements à venir</h3>
-      <div id="events-container">
+      <div id="events-container" style="max-height: 500px; overflow-y: auto;">
         <p style="color:#666;margin-top:8px">Chargement...</p>
       </div>
     </section>
