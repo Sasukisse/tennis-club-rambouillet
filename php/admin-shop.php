@@ -530,7 +530,7 @@ $products = $pdo->query("SELECT * FROM products ORDER BY created_at DESC")->fetc
                         <span><strong>📦 Stock:</strong> <?= $product['stock'] ?></span>
                       <?php endif; ?>
                       <?php if($product['has_variants']): ?>
-                        <span>🏷️ A des variantes</span>
+                        <span>🏷️ Produit avec des variantes</span>
                       <?php endif; ?>
                     </div>
                   </div>
