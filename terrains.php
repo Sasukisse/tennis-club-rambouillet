@@ -24,24 +24,7 @@ if($isLogged){
   <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:600,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
-  <style>
-    /* Styles locaux pour le formulaire de réservation et la liste */
-    .booking { background:#FFF8E9; padding: 30px 0 30px 0; }
-    .booking .form { display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; justify-content:center; margin: 10px 0 12px 0; }
-    .booking label { display:flex; flex-direction:column; font-size:.95rem; }
-    .booking input, .booking select { padding:10px 12px; border:1px solid #e7dcc9; border-radius:10px; background:white; min-width: 160px; }
-    .booking .btn-row { display:flex; gap:12px; }
-    .btn { display:inline-block; background:#F95E2D; color:#FFF8E9; font-weight:bold; padding:12px 22px; border-radius:30px; border:2px solid transparent; text-decoration:none; cursor:pointer; transition:.2s; }
-    .btn:hover { background:#FFF8E9; color:#F95E2D; border-color:#F95E2D; transform:scale(1.03); }
-    .booking .grid { margin-top: 16px; }
-    .notice { text-align:center; font-size:.95rem; color:#555; margin-top:12px; }
-    .list { margin-top:20px; }
-    .res-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 16px; background:white; border:1px solid #e7dcc9; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
-    .res-col { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-    .badge { background:#202226; color:#FFF8E9; padding:6px 10px; border-radius:20px; font-size:.9rem; }
-    .muted { color:#666; font-size:.95rem; }
-    .empty { text-align:center; color:#666; padding:10px 0; }
-  </style>
+  <link rel="stylesheet" href="css/terrains.css" />
 </head>
 <body>
   <header>

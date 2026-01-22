@@ -6,7 +6,7 @@ Ce projet est un site web complet pour le Tennis Club de Rambouillet. Il inclut 
 - `index.html` — Accueil + carrousel.
 - `le-club.html` — Présentation et photos.
 - `inscriptions.html` — Infos d’inscription + PDF.
-- `terrains.html` — Réservation de terrains (démo, localStorage).
+- `terrains.php` — Réservation de terrains (avec authentification et base de données).
 - `boutique.html` — Produits + panier + PayPal (démo).
 - `contact.html` — Formulaire de contact (démo).
 - `css/` — Styles globaux et spécifiques:
@@ -46,7 +46,7 @@ Ce projet est un site web complet pour le Tennis Club de Rambouillet. Il inclut 
   - Directement en SQL: `UPDATE users SET role='admin' WHERE email='...'`.
 
 ## Pages et fonctionnalités
-- Terrains (`terrains.html`):
+- Terrains (`terrains.php`):
   - Réservations en localStorage (hors serveur).
   - Détection des conflits (chevauchement de créneaux) par terrain.
   - Heures d’ouverture: 08:00–22:00.
