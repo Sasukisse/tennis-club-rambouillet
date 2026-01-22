@@ -128,8 +128,10 @@ $youtubeVideos = $pdo->query('SELECT id, url, title, created_at FROM youtube_vid
     .grid{display:grid;grid-template-columns:1fr;gap:18px}
     @media(min-width:860px){.grid{grid-template-columns:1fr 2fr}}
     .media-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .media-item{border:1px solid #eadfca;border-radius:8px;padding:8px}
-    .media-item img, .media-item video{max-width:100%;display:block;margin-bottom:6px}
+    .media-item{border:1px solid #eadfca;border-radius:8px;padding:8px;display:flex;flex-direction:column;min-height:280px}
+    .media-item img, .media-item video{max-width:100%;height:180px;object-fit:cover;display:block;border-radius:4px}
+    .media-item form{margin-top:auto;padding-top:12px}
+    .media-item .btn{width:100%;text-align:center}
     .btn{display:inline-block;background:#F95E2D;color:#FFF8E9;font-family:'Montserrat',Arial,sans-serif;font-size:1rem;font-weight:bold;padding:10px 18px;border-radius:30px;border:2px solid transparent;text-decoration:none;cursor:pointer;transition:.2s}
     .btn:hover{background:#FFF8E9;color:#F95E2D;border-color:#F95E2D;transform:scale(1.03)}
     .muted{color:#7a6e5a;font-size:0.95rem}
@@ -229,7 +231,7 @@ $youtubeVideos = $pdo->query('SELECT id, url, title, created_at FROM youtube_vid
             <?php else: ?>
               <p class="muted">Fichier: <?php echo htmlspecialchars($name); ?></p>
             <?php endif; ?>
-            <form method="post" style="margin-top:6px">
+            <form method="post">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
               <button class="btn" type="submit">Supprimer</button>
