@@ -56,36 +56,8 @@
 
   <main class="container shop-layout">
     <!-- PRODUITS: chaque article contient image, titre, description, prix et contrôles -->
-    <section class="products" aria-label="Liste de produits">
-      <!-- Produit 1 : Balles de tennis -->
-      <article class="product-card" data-sku="BALL-4P">
-        <img src="img/produits/balles.jpg" alt="Tube de 4 balles de tennis" class="product-media" width="1200" height="800" loading="lazy">
-        <h3 class="product-title">Balles de tennis – Tube de 4</h3>
-        <p class="product-desc">Balles pressurisées pour tous types de surface. Marque premium, durables.</p>
-        <div class="product-row">
-          <span class="product-price" data-price="8.00">8,00 €</span>
-          <label>Qté :<input class="product-qty" type="number" value="1" min="1" step="1"></label>
-        </div>
-        <button class="btn-add" data-type="simple">Ajouter au panier</button>
-      </article>
-
-      <!-- Produit 2 : Pull du club -->
-      <article class="product-card" data-sku="PULL-2025">
-        <img src="img/produits/pull.jpg" alt="Pull officiel du club, coloris bleu marine" class="product-media" width="1200" height="800" loading="lazy">
-        <h3 class="product-title">Pull officiel du club</h3>
-        <p class="product-desc">Coupe unisexe, bleu marine, logo brodé. Coton épais confortable.</p>
-        <div class="product-row">
-          <span class="product-price" data-price="35.00">35,00 €</span>
-          <select class="product-size" aria-label="Taille">
-            <option value="S">S</option>
-            <option value="M" selected>M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-          <label>Qté :<input class="product-qty" type="number" value="1" min="1" step="1"></label>
-        </div>
-        <button class="btn-add" data-type="variant">Ajouter au panier</button>
-      </article>
+    <section class="products" aria-label="Liste de produits" id="products-container">
+      <p style="text-align:center;color:#666;padding:40px">Chargement des produits...</p>
     </section>
 
     <!-- PANIER: liste d'items ajoutés + récapitulatif + paiement -->

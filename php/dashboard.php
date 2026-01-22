@@ -53,6 +53,7 @@ try{
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/tennis-club-rambouillet/css/style.css">
   <link rel="stylesheet" href="/tennis-club-rambouillet/css/dashboard.css">
+  <link rel="stylesheet" href="/tennis-club-rambouillet/css/admin.css">
   <script src="/tennis-club-rambouillet/js/nav-badge.js"></script>
 </head><body>
   <header><div class="container header-flex">
@@ -107,7 +108,6 @@ try{
           <div style="margin-top:14px"><button class="btn" type="submit">Enregistrer</button></div>
         </form>
       </div>
-      <div style="margin-top:12px"><a class="btn" href="/tennis-club-rambouillet/php/logout.php">Se déconnecter</a></div>
     </section>
     
     <!-- Carte: tournois à venir -->
@@ -140,6 +140,10 @@ try{
       <div style="margin-top:14px"><a class="btn" href="/tennis-club-rambouillet/php/admin.php">Ouvrir le panel admin</a></div>
     </section>
     <?php endif; ?>
+    
+    <div style="margin-top:40px;text-align:center;padding-bottom:30px">
+      <a class="btn sec" href="/tennis-club-rambouillet/php/logout.php">Se déconnecter</a>
+    </div>
   </div></main>
 
   <footer><div class="container"><p>&copy; 2025 Tennis Club de Rambouillet - Tous droits réservés</p></div></footer>
@@ -270,7 +274,7 @@ try{
           // Bouton Je participe en haut à droite
           html += '<div style="position:absolute;top:12px;right:12px">';
           html += '<button class="btn-participate-tournament" data-tournament-id="' + t.id + '" data-participating="' + isParticipating + '" style="padding:6px 14px;font-size:0.85rem;background:' + (isParticipating ? '#1b5e20' : '#F95E2D') + ';color:#FFF8E9;border:none;border-radius:20px;cursor:pointer;font-family:Montserrat,Arial,sans-serif;font-weight:bold;transition:all 0.2s">';
-          html += isParticipating ? '✓ Annuler' : 'Je participe';
+          html += isParticipating ? 'Annuler' : 'Je participe';
           html += '</button></div>';
           
           html += '<h4 style="margin-bottom:4px;color:#F95E2D;padding-right:130px">' + t.title + '</h4>';
