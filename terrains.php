@@ -103,8 +103,6 @@ if($isLogged){
         </div>
       </form>
 
-      <p class="notice">Démonstration hors-ligne: les réservations sont stockées dans votre navigateur.</p>
-
       <section class="list" aria-label="Mes réservations">
         <h2 style="text-align:center; margin-bottom:12px;">Mes réservations</h2>
         <div id="res-list"></div>
