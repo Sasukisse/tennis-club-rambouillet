@@ -58,7 +58,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
       $event_time ?: null,
       $location ?: null
     ]);
-    $eventSuccess = 'Événement créé avec succès.';
+    header('Location: /tennis-club-rambouillet/php/admin-events.php?created=1#event-list');
+    exit;
   }
 }
 
@@ -92,7 +93,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
   $event_id = intval($_POST['event_id'] ?? 0);
   if($event_id > 0){
     $pdo->prepare("DELETE FROM events WHERE id = ?")->execute([$event_id]);
-    $eventSuccess = 'Événement supprimé.';
+    header('Location: /tennis-club-rambouillet/php/admin-events.php?deleted=1#event-list');
+    exit;
   }
 }
 
@@ -202,8 +204,14 @@ $pastEvents = $pdo->query("
     </section>
     
     <!-- Liste des événements à venir -->
-    <section class="card" aria-label="Événements à venir">
+    <section class="card" aria-label="Événements à venir" id="event-list">
       <h3>Événements en cours (<?php echo count($events); ?>)</h3>
+      <?php if(isset($_GET['created'])): ?>
+        <p style="color:#1b5e20;margin:8px 0">✓ Événement créé avec succès.</p>
+      <?php endif; ?>
+      <?php if(isset($_GET['deleted'])): ?>
+        <p style="color:#1b5e20;margin:8px 0">✓ Événement supprimé.</p>
+      <?php endif; ?>
       <?php if(empty($events)): ?>
         <p style="color:#666;margin-top:8px">Aucun événement à venir.</p>
       <?php else: ?>
