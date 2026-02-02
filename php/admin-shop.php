@@ -564,7 +564,7 @@ $products = $pdo->query("SELECT * FROM products ORDER BY created_at DESC")->fetc
       </section>
       
       <div class="form-row" style="margin-top:16px">
-        <a class="btn" href="/tennis-club-rambouillet/php/admin.php">← Retour au panel admin</a>
+        <a class="btn" href="/tennis-club-rambouillet/php/admin.php">Retour au panel admin</a>
         <a class="btn" href="/tennis-club-rambouillet/php/logout.php">Se déconnecter</a>
       </div>
     </div>
