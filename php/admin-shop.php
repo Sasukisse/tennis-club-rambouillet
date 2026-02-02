@@ -272,6 +272,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_product'){
   $product_id = intval($_POST['product_id'] ?? 0);
   if($product_id > 0){
+    // Récupérer toutes les images liées au produit
+    $stmt = $pdo->prepare("SELECT image_path FROM product_images WHERE product_id = ?");
+    $stmt->execute([$product_id]);
+    $images = $stmt->fetchAll();
+    
+    // Supprimer physiquement chaque fichier image
+    $uploadDir = __DIR__ . '/../img/produits/';
+    foreach($images as $img){
+      if(file_exists($uploadDir . $img['image_path'])){
+        unlink($uploadDir . $img['image_path']);
+      }
+    }
+    
+    // Supprimer le produit (les entrées product_images seront supprimées automatiquement grâce à ON DELETE CASCADE)
     $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$product_id]);
     header('Location: /tennis-club-rambouillet/php/admin-shop.php?deleted=1#product-list');
     exit;
