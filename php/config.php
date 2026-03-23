@@ -7,10 +7,10 @@
 // - require_login()/require_admin(): protections de pages
 //
 // Config de connexion MySQL
-$DB_HOST = '127.0.0.1';
-$DB_NAME = 'tcr';
-$DB_USER = 'root';
-$DB_PASS = '';
+$DB_HOST = 'localhost';
+$DB_NAME = 'nafi7014_tennis';
+$DB_USER = 'nafi7014_tennis_user';
+$DB_PASS = 'E;g+xp!tkLE(';
 
 function db(){
   static $pdo = null;

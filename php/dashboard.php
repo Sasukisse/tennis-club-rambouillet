@@ -96,11 +96,11 @@ try{
             <input type="text" name="address_line" value="<?php echo htmlspecialchars($profile['address_line'] ?? ''); ?>" placeholder="N°, Rue" required>
           </div>
           <div style="display:grid;grid-template-columns:120px 1fr;gap:12px">
-            <div class="form-field">
+            <div class="form-field" style="min-width:0">
               <label>Code postal</label>
               <input type="text" name="zip" value="<?php echo htmlspecialchars($profile['zip'] ?? ''); ?>" placeholder="78120" required inputmode="numeric" maxlength="5" pattern="\d{5}" title="5 chiffres">
             </div>
-            <div class="form-field">
+            <div class="form-field" style="min-width:0">
               <label>Ville</label>
               <input type="text" name="city" value="<?php echo htmlspecialchars($profile['city'] ?? ''); ?>" placeholder="Rambouillet" required pattern="^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,128}$" title="Lettres, espaces, apostrophes et tirets">
             </div>

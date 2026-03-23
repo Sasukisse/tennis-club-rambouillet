@@ -1,9 +1,8 @@
 --
 -- Schéma SQL du Tennis Club de Rambouillet
 --
--- Base: tcr (utf8mb4 pour bien gérer les accents/emoji)
-CREATE DATABASE IF NOT EXISTS tcr CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE tcr;
+-- Base: nafi7014_tennis (utf8mb4 pour bien gérer les accents/emoji)
+USE nafi7014_tennis;
 
 -- Table des utilisateurs
 -- Champs:
