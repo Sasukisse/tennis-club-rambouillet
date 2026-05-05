@@ -1,76 +1,156 @@
 # Tennis Club de Rambouillet — Site Web
 
-Ce projet est un site web complet pour le Tennis Club de Rambouillet. Il inclut des pages publiques (Accueil, Le Club, Inscriptions, Terrains, Boutique, Contact) et un espace membre/admin en PHP avec MySQL.
+Ce projet est un site web complet pour le Tennis Club de Rambouillet, réalisé dans le cadre du BTS SIO.  
+Il comprend un site public ainsi qu'un espace membre et administrateur développé en PHP avec une base de données MySQL.
 
-## Structure du projet
-- `index.html` — Accueil + carrousel.
-- `le-club.html` — Présentation et photos.
-- `inscriptions.html` — Infos d’inscription + PDF.
-- `terrains.php` — Réservation de terrains (avec authentification et base de données).
-- `boutique.html` — Produits + panier + PayPal (démo).
-- `contact.html` — Formulaire de contact (démo).
-- `css/` — Styles globaux et spécifiques:
-  - `style.css` (global)
-  - `boutique.css`, `contact.css` (pages)
-- `img/` — Images du site.
-- `php/` — Espace membre/admin (PHP):
-  - `config.php` (PDO, sessions, guards)
-  - `register.php`, `login.php`, `logout.php`
-  - `dashboard.php`, `admin.php`
-- `db/schema.sql` — Schéma SQL (base `tcr`, table `users`).
-- `pdf/` — Documents PDF liés aux inscriptions.
+---
 
 ## Prérequis
-- Windows + XAMPP (Apache + MySQL)
-- Navigateur moderne (Chrome, Edge, Firefox)
 
-## Installation (XAMPP)
-1. Placer ce dossier dans `C:\xampp\htdocs\tennis-club-rambouillet`.
-2. Démarrer `Apache` et `MySQL` depuis le panneau XAMPP.
-3. Créer la base et la table:
-   - Ouvrir `http://localhost/phpmyadmin/`.
-   - Importer `db/schema.sql` (onglet Importer).
-4. Configurer (si besoin) les accès MySQL dans `php/config.php` (`$DB_HOST`, `$DB_USER`, `$DB_PASS`).
+Avant de commencer, assurez-vous d'avoir installé les logiciels suivants sur votre machine :
 
-## Démarrage
-- Site public: `http://localhost/tennis-club-rambouillet/index.html`
-- Espace membre: `http://localhost/tennis-club-rambouillet/php/login.php`
+- **XAMPP** (inclut Apache et MySQL) : https://www.apachefriends.org/fr/index.html
+- **Git** : https://git-scm.com/downloads
+- Un navigateur web récent (Chrome, Firefox, Edge…)
 
-## Comptes et rôles
-- Inscription: via `register.php`.
-- Connexion: via `login.php`.
-- Dashboard: `dashboard.php` (infos utilisateur).
-- Administration: `admin.php` (promouvoir/rétrograder/supprimer).
-- Rôle par défaut: `member`. Pour créer un admin, deux options:
-  - Depuis `admin.php`: promouvoir un utilisateur.
-  - Directement en SQL: `UPDATE users SET role='admin' WHERE email='...'`.
+---
 
-## Pages et fonctionnalités
-- Terrains (`terrains.php`):
-  - Réservations en localStorage (hors serveur).
-  - Détection des conflits (chevauchement de créneaux) par terrain.
-  - Heures d’ouverture: 08:00–22:00.
-- Boutique (`boutique.html`):
-  - Panier en localStorage.
-  - Totaux: sous-total, livraison forfaitaire (5€ si < 50€), total.
-  - Bouton démo: récapitulatif + vidage du panier.
-  - PayPal: nécessite un `client-id` valide (voir ci-dessous).
-- Contact (`contact.html`):
-  - Formulaire démo (pas d’envoi serveur): message de confirmation et reset.
+## Étape 1 — Récupérer le projet
 
-## Notes techniques
-- Sessions PHP: stockent `$_SESSION['user']` avec `id`, `email`, `full_name`, `role`.
-- Sécurité: mots de passe hashés (bcrypt). Pages admin protégées par `require_admin()`.
-- Styles: direction artistique cohérente (Barlow Semi Condensed, Montserrat; couleurs, arrondis, ombres douces).
+1. Ouvrez l'**Invite de commandes** (touche Windows, tapez `cmd`, appuyez sur Entrée).
+2. Exécutez les commandes suivantes l'une après l'autre :
 
-## Dépannage rapide
-- Erreur de connexion MySQL: vérifier `php/config.php` et que MySQL est démarré.
-- PayPal non affiché: vérifier le client id; le bouton démo reste disponible.
-- Réservations/boutique vides: localStorage peut être vidé via les actions.
+```
+cd C:\xampp\htdocs
+git clone https://github.com/Sasukisse/tennis-club-rambouillet.git
+```
 
-## Développement
-- Les commentaires détaillent le code dans chaque fichier.
-- Pour étendre:
-  - Terrains: migrer localStorage vers une API PHP/MySQL.
-  - Boutique: stocker les commandes en base et sécuriser les notifications PayPal (webhooks).
-  - Contact: brancher un envoi serveur (mail) et anti-spam.
+Le projet est maintenant disponible dans `C:\xampp\htdocs\tennis-club-rambouillet`.
+
+---
+
+## Étape 2 — Démarrer XAMPP
+
+1. Ouvrez **XAMPP Control Panel** depuis le menu Démarrer ou le Bureau.
+2. Cliquez sur **Start** en face de **Apache**.
+3. Cliquez sur **Start** en face de **MySQL**.
+
+Les deux services doivent afficher un fond vert, indiquant qu'ils sont bien démarrés.
+
+---
+
+## Étape 3 — Importer la base de données
+
+1. Ouvrez votre navigateur et rendez-vous à l'adresse suivante :
+
+```
+http://localhost/phpmyadmin
+```
+
+2. Dans le menu de gauche, cliquez sur **Nouveau**.
+3. Dans le champ **Nom de la base de données**, saisissez exactement :
+
+```
+nafi7014_tennis
+```
+
+4. Cliquez sur **Créer**.
+5. La base apparaît dans le menu de gauche — cliquez dessus pour la sélectionner.
+6. Cliquez sur l'onglet **Importer** en haut de la page.
+7. Cliquez sur **Choisir un fichier**, puis sélectionnez le fichier suivant :
+
+```
+C:\xampp\htdocs\tennis-club-rambouillet\db\schema.sql
+```
+
+8. Faites défiler la page vers le bas et cliquez sur **Importer**.
+
+Toutes les tables et les données sont maintenant en place.
+
+---
+
+## Étape 4 — Accéder au site
+
+Ouvrez votre navigateur et rendez-vous à l'adresse :
+
+```
+http://localhost/tennis-club-rambouillet
+```
+
+La page d'accueil du Tennis Club de Rambouillet doit s'afficher.
+
+---
+
+## Étape 5 — Se connecter avec le compte administrateur
+
+Un compte administrateur est déjà présent dans la base de données importée.
+
+Rendez-vous sur la page de connexion :
+
+```
+http://localhost/tennis-club-rambouillet/php/login.php
+```
+
+Utilisez les identifiants suivants :
+
+| Champ         | Valeur                  |
+|---------------|-------------------------|
+| **Email**     | `jurys.sio@gmail.com`   |
+| **Mot de passe** | `Azerty123`          |
+
+Ce compte donne accès à l'ensemble des fonctionnalités d'administration du site.
+
+---
+
+## Pages principales
+
+| Page                  | Adresse                                                                 |
+|-----------------------|-------------------------------------------------------------------------|
+| Accueil               | `http://localhost/tennis-club-rambouillet/`                             |
+| Connexion             | `http://localhost/tennis-club-rambouillet/php/login.php`                |
+| Tableau de bord       | `http://localhost/tennis-club-rambouillet/php/dashboard.php`            |
+| Administration        | `http://localhost/tennis-club-rambouillet/php/admin.php`                |
+| Boutique              | `http://localhost/tennis-club-rambouillet/boutique.html`                |
+| Réservation terrains  | `http://localhost/tennis-club-rambouillet/terrains.php`                 |
+| Médias                | `http://localhost/tennis-club-rambouillet/medias.html`                  |
+| Contact               | `http://localhost/tennis-club-rambouillet/contact.html`                 |
+
+---
+
+## Structure du projet
+
+```
+tennis-club-rambouillet/
+├── index.html            # Page d'accueil
+├── le-club.html          # Présentation du club
+├── inscriptions.html     # Informations et tarifs d'inscription
+├── terrains.php          # Réservation de terrains
+├── boutique.html         # Boutique en ligne
+├── medias.html           # Galerie photos et vidéos
+├── contact.html          # Formulaire de contact
+├── css/                  # Feuilles de style
+├── js/                   # Scripts JavaScript
+├── img/                  # Images du site
+├── pdf/                  # Documents PDF
+├── php/                  # Back-end PHP (authentification, API, admin)
+│   ├── config.php        # Configuration base de données et sessions
+│   ├── login.php         # Connexion
+│   ├── register.php      # Inscription
+│   ├── dashboard.php     # Espace membre
+│   └── admin.php         # Interface d'administration
+└── db/
+    └── schema.sql        # Dump complet de la base de données
+```
+
+---
+
+## Résolution des problèmes courants
+
+**Apache ou MySQL ne démarrent pas dans XAMPP**
+→ Redémarrez votre machine et réessayez. Si le problème persiste, un autre logiciel occupe peut-être le port 80 (souvent Skype ou IIS).
+
+**Erreur de connexion à la base de données**
+→ Vérifiez que le service MySQL est bien démarré (fond vert dans XAMPP).
+
+**Page "Not Found" (404)**
+→ Vérifiez que le dossier du projet est bien nommé `tennis-club-rambouillet` dans `C:\xampp\htdocs\`.
