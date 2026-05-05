@@ -9,8 +9,8 @@
 // Config de connexion MySQL
 $DB_HOST = 'localhost';
 $DB_NAME = 'nafi7014_tennis';
-$DB_USER = 'nafi7014_tennis_user';
-$DB_PASS = 'E;g+xp!tkLE(';
+$DB_USER = 'root';
+$DB_PASS = '';
 
 function db(){
   static $pdo = null;
