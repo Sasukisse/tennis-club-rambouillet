@@ -1,4 +1,4 @@
-# Tennis Club de Rambouillet — Site Web
+# Tennis Club de Rambouillet - Site Web
 
 Ce projet est un site web complet pour le Tennis Club de Rambouillet, réalisé dans le cadre du BTS SIO.  
 Il comprend un site public ainsi qu'un espace membre et administrateur développé en PHP avec une base de données MySQL.
@@ -15,7 +15,7 @@ Avant de commencer, assurez-vous d'avoir installé les logiciels suivants sur vo
 
 ---
 
-## Étape 1 — Récupérer le projet
+## Étape 1 - Récupérer le projet
 
 1. Ouvrez l'**Invite de commandes** (touche Windows, tapez `cmd`, appuyez sur Entrée).
 2. Exécutez les commandes suivantes l'une après l'autre :
@@ -29,7 +29,7 @@ Le projet est maintenant disponible dans `C:\xampp\htdocs\tennis-club-rambouille
 
 ---
 
-## Étape 2 — Démarrer XAMPP
+## Étape 2 - Démarrer XAMPP
 
 1. Ouvrez **XAMPP Control Panel** depuis le menu Démarrer ou le Bureau.
 2. Cliquez sur **Start** en face de **Apache**.
@@ -39,7 +39,7 @@ Les deux services doivent afficher un fond vert, indiquant qu'ils sont bien dém
 
 ---
 
-## Étape 3 — Importer la base de données
+## Étape 3 - Importer la base de données
 
 1. Ouvrez votre navigateur et rendez-vous à l'adresse suivante :
 
@@ -55,7 +55,7 @@ nafi7014_tennis
 ```
 
 4. Cliquez sur **Créer**.
-5. La base apparaît dans le menu de gauche — cliquez dessus pour la sélectionner.
+5. La base apparaît dans le menu de gauche - cliquez dessus pour la sélectionner.
 6. Cliquez sur l'onglet **Importer** en haut de la page.
 7. Cliquez sur **Choisir un fichier**, puis sélectionnez le fichier suivant :
 
@@ -69,7 +69,7 @@ Toutes les tables et les données sont maintenant en place.
 
 ---
 
-## Étape 4 — Accéder au site
+## Étape 4 - Accéder au site
 
 Ouvrez votre navigateur et rendez-vous à l'adresse :
 
@@ -81,7 +81,7 @@ La page d'accueil du Tennis Club de Rambouillet doit s'afficher.
 
 ---
 
-## Étape 5 — Se connecter avec le compte administrateur
+## Étape 5 - Se connecter avec le compte administrateur
 
 Un compte administrateur est déjà présent dans la base de données importée.
 
