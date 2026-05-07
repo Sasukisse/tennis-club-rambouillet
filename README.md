@@ -10,24 +10,15 @@ Il comprend un site public ainsi qu'un espace membre et administrateur développ
 Avant de commencer, assurez-vous d'avoir installé les logiciels suivants sur votre machine :
 
 - **XAMPP** (inclut Apache et MySQL) : https://www.apachefriends.org/fr/index.html
-- **Git** : https://git-scm.com/downloads
 - Un navigateur web récent (Chrome, Firefox, Edge…)
 
 ---
 
 ## Étape 1 - Récupérer le projet
 
-1. Ouvrez l'**Invite de commandes** (touche Windows, tapez `cmd`, appuyez sur Entrée).
-2. Exécutez les commandes suivantes l'une après l'autre :
-
-```
-cd C:\xampp\htdocs
-git clone https://github.com/Sasukisse/tennis-club-rambouillet.git
-```
-
-Le projet est maintenant disponible dans `C:\xampp\htdocs\tennis-club-rambouillet`.
-
----
+1. Télécharger le fichier .ZIP
+2. Renommer le dossier `tennis-club-rambouillet`
+3. Déplacer le dossier pour qu'il soit accessible via ce chemin → `C:\xampp\htdocs\tennis-club-rambouillet`
 
 ## Étape 2 - Démarrer XAMPP
 
@@ -47,8 +38,8 @@ Les deux services doivent afficher un fond vert, indiquant qu'ils sont bien dém
 http://localhost/phpmyadmin
 ```
 
-2. Dans le menu de gauche, cliquez sur **Nouveau**.
-3. Dans le champ **Nom de la base de données**, saisissez exactement :
+2. Dans le menu de gauche, cliquez sur **Nouvelle base de données**.
+3. Dans le champ **Nom de base de données**, saisissez exactement :
 
 ```
 nafi7014_tennis
